@@ -1,9 +1,7 @@
 ﻿using DietCalculatorSystem.Data.Models;
+using DietCalculatorSystem.Data.Models.OneToOneRelationships;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DietCalculatorSystem.Data
 {
@@ -15,11 +13,41 @@ namespace DietCalculatorSystem.Data
         }
 
         public DbSet<Food> Foods { get; init; }
-
+        public DbSet<TotalFood> TotalFoods { get; init; }
+        public DbSet<BalanceDiet> BalanceDiets { get; init; }
         public DbSet<DeficitDiet> DeficitDiets { get; init; }
+        public DbSet<SurplusDiet> SurplusDiets { get; init; }
+        public DbSet<Diet> Diets { get; init; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<BalanceDiet>()
+                .HasKey(x => new { x.UserId, x.DietId });
+
+            builder.Entity<DeficitDiet>()
+                .HasKey(x => new { x.UserId, x.DietId });
+
+            builder.Entity<SurplusDiet>()
+            .HasKey(x => new { x.UserId, x.DietId });
+
+            builder.Entity<TotalFood>()
+                .HasKey(x => new { x.UserId, x.FoodId });
+
+            builder.Entity<User>()
+                .HasOne(x => x.BalancedDiet)
+                .WithOne(a => a.User)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<User>()
+                .HasOne(x => x.DeficitDiet)
+                .WithOne(a => a.User)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<User>()
+                .HasOne(x => x.SurplusDiet)
+                .WithOne(a => a.User)
+                .OnDelete(DeleteBehavior.Restrict);
+
             base.OnModelCreating(builder);
         }
     }

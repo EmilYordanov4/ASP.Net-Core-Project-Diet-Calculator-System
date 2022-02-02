@@ -1,5 +1,3 @@
-using System;
-
 namespace DietCalculatorSystem.Models
 {
     public class ErrorViewModel
