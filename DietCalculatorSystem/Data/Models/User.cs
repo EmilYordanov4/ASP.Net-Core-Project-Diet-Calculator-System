@@ -10,7 +10,7 @@ namespace DietCalculatorSystem.Data.Models
         public string FullName { get; set; }
 
         public string BalancedDietId { get; set; }
-        public BalanceDiet BalancedDiet { get; set; }
+        public BalancedDiet BalancedDiet { get; set; }
 
         public string DeficitDietId { get; set; }
         public DeficitDiet DeficitDiet { get; set; }
