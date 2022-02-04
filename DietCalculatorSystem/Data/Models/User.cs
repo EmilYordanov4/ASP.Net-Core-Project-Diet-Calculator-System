@@ -5,8 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DietCalculatorSystem.Data.Models
 {
+    using static DataConstants.User;
+
     public class User : IdentityUser
     {
+        [Required]
+        [MaxLength(MaxFullNameLength)]
         public string FullName { get; set; }
 
         public string BalancedDietId { get; set; }

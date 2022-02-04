@@ -15,7 +15,7 @@ namespace DietCalculatorSystem.Data
 
         public DbSet<Food> Foods { get; init; }
         public DbSet<TotalFood> TotalFoods { get; init; }
-        public DbSet<BreakfastFood> BreakfastFoods{ get; init; }
+        public DbSet<BreakfastFood> BreakfastFoods { get; init; }
         public DbSet<LunchFood> LunchFoods { get; init; }
         public DbSet<DinnerFood> DinnerFoods { get; init; }
         public DbSet<BalancedDiet> BalancedDiets { get; init; }
