@@ -1,7 +1,6 @@
 ﻿using DietCalculatorSystem.Data.Models.OneToOneRelationships;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DietCalculatorSystem.Data.Models
 {
