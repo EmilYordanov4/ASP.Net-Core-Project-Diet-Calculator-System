@@ -1,4 +1,5 @@
 using DietCalculatorSystem.Data;
+using DietCalculatorSystem.Data.Models;
 using DietCalculatorSystem.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,8 +28,17 @@ namespace DietCalculatorSystem
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<DietCalculatorDbContext>();
+            services.AddDefaultIdentity<User>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<DietCalculatorDbContext>();
+
             services.AddControllersWithViews();
         }
 
@@ -59,7 +69,7 @@ namespace DietCalculatorSystem
                 endpoints.MapRazorPages();
             });
 
-            
+
         }
     }
 }
