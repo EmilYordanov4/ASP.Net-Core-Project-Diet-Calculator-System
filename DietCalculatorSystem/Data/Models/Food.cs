@@ -19,15 +19,15 @@ namespace DietCalculatorSystem.Data.Models
         public string PictureUrl { get; set; }
 
         [Required]
-        public int Calories { get; set; }
+        public int? Calories { get; set; }
 
         [Required]
-        public double Proteins { get; set; }
+        public double? Proteins { get; set; }
 
         [Required]
-        public double Fats { get; set; }
+        public double? Fats { get; set; }
 
         [Required]
-        public double Carbohydrates { get; set; }
+        public double? Carbohydrates { get; set; }
     }
 }

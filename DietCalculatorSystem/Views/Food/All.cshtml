@@ -1,0 +1,20 @@
+﻿@model IEnumerable<AllFoodsFormModel>
+
+<div align="right">
+	<a class="text-dark" asp-area="" asp-controller="Food" asp-action="Add">Add Food</a>
+</div>
+
+@foreach (var food in Model)
+{
+	<div class="form-group col-md-3">
+		<img src="@food.PictureUrl" class="card-img-top" alt="...">
+		<div class="card-body">
+			<h5 class="card-title" align="center">@food.Name</h5>
+			<p class="card-text" align="center">Calories: @food.Calories</p>
+			<p class="card-text">Proteins: @food.Proteins grams</p>
+			<p class="card-text">Fats: @food.Fats grams</p>
+			<p class="card-text">Carbohydrates: @food.Carbohydrates grams</p>
+			<a href="#" class="btn btn-primary" >Details</a>
+		</div>
+	</div>
+}
