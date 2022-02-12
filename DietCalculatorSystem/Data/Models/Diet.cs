@@ -11,27 +11,27 @@ namespace DietCalculatorSystem.Data.Models
 
         //Total
         public int TotalCalories { get; set; }
-        public int TotalProteins { get; set; }
-        public int TotalFats { get; set; }
-        public int TotalCarbohydrates { get; set; }
+        public double TotalProteins { get; set; }
+        public double TotalFats { get; set; }
+        public double TotalCarbohydrates { get; set; }
 
         //Breakfast
         public int BreakfastCalories { get; set; }
-        public int BreakfastProteins { get; set; }
-        public int BreakfastFats { get; set; }
-        public int BreakfastCarbohydrates { get; set; }
+        public double BreakfastProteins { get; set; }
+        public double BreakfastFats { get; set; }
+        public double BreakfastCarbohydrates { get; set; }
 
         //Lunch
         public int LunchCalories { get; set; }
-        public int LunchProteins { get; set; }
-        public int LunchFats { get; set; }
-        public int LunchCarbohydrates { get; set; }
+        public double LunchProteins { get; set; }
+        public double LunchFats { get; set; }
+        public double LunchCarbohydrates { get; set; }
 
         //Dinner
         public int DinnerCalories { get; set; }
-        public int DinnerProteins { get; set; }
-        public int DinnerFats { get; set; }
-        public int DinnerCarbohydrates { get; set; }
+        public double DinnerProteins { get; set; }
+        public double DinnerFats { get; set; }
+        public double DinnerCarbohydrates { get; set; }
 
     }
 }

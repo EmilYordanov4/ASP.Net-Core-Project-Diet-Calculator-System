@@ -22,12 +22,12 @@ namespace DietCalculatorSystem.Data.Models
         public int Calories { get; set; }
 
         [Required]
-        public int Proteins { get; set; }
+        public double Proteins { get; set; }
 
         [Required]
-        public int Fats { get; set; }
+        public double Fats { get; set; }
 
         [Required]
-        public int Carbohydrates { get; set; }
+        public double Carbohydrates { get; set; }
     }
 }
