@@ -8,7 +8,7 @@
 
         public string PictureUrl { get; set; }
 
-        public int? Calories { get; set; }
+        public double? Calories { get; set; }
 
         public double? Proteins { get; set; }
 

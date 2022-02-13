@@ -21,7 +21,7 @@ namespace DietCalculatorSystem.Models.Foods
 
         [Required]
         [Range(MinCalories, MaxCalories)]
-        public int? Calories { get; set; }
+        public double? Calories { get; set; }
 
         [Required]
         [Range(MinProteins, MaxProteins)]

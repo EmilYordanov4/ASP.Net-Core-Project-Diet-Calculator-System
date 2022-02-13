@@ -21,22 +21,22 @@ namespace DietCalculatorSystem.Controllers
         {
             var foodsAsQuery = data.Foods.AsQueryable();
 
-            int totalFoods = foodsAsQuery.Count();
 
             if (!string.IsNullOrWhiteSpace(query.SearchTerm))
             {
                 foodsAsQuery = foodsAsQuery
-                    .Where(x => x.Name.ToLower().Contains(query.SearchTerm.ToLower()) ||
-                           x.Description.ToLower().Contains(query.SearchTerm.ToLower()));
+                    .Where(x => x.Name.ToLower().Contains(query.SearchTerm.ToLower()));
             }
 
+            int totalFoods = foodsAsQuery.Count();
+
             foodsAsQuery = query.Sorting switch
-			{
-				FoodSorting.Proteins => foodsAsQuery.OrderByDescending(x => x.Proteins),
-				FoodSorting.Fats => foodsAsQuery.OrderByDescending(x => x.Fats),
-				FoodSorting.Carbohydrates => foodsAsQuery.OrderByDescending(x => x.Carbohydrates),
-				_ => foodsAsQuery.OrderByDescending(x => x.Calories),
-			};
+            {
+                FoodSorting.Proteins => foodsAsQuery.OrderByDescending(x => x.Proteins),
+                FoodSorting.Fats => foodsAsQuery.OrderByDescending(x => x.Fats),
+                FoodSorting.Carbohydrates => foodsAsQuery.OrderByDescending(x => x.Carbohydrates),
+                _ => foodsAsQuery.OrderByDescending(x => x.Calories),
+            };
 
             query.Foods = foodsAsQuery
                 .Skip((query.CurrentPage - 1) * AllFoodsQueryModel.FoodsPerPage)
@@ -59,32 +59,32 @@ namespace DietCalculatorSystem.Controllers
         }
 
         [Authorize]
-        public IActionResult Add() 
+        public IActionResult Add()
         {
             return View();
         }
-        
+
         [Authorize]
         [HttpPost]
-        public IActionResult Add(AddFoodFormModel foodModel) 
+        public IActionResult Add(AddFoodFormModel foodModel)
         {
-			if (data.Foods.Any(x => x.Name == foodModel.Name))
-			{
+            if (data.Foods.Any(x => x.Name == foodModel.Name))
+            {
                 this.ModelState.AddModelError(nameof(foodModel.Name), "Food already exists!");
-			}
+            }
 
-			if (!ModelState.IsValid)
-			{
+            if (!ModelState.IsValid)
+            {
                 return View(foodModel);
-			}
+            }
 
-            Food food = new() 
+            Food food = new()
             {
                 Name = foodModel.Name,
                 Calories = foodModel.Calories,
-                Proteins= foodModel.Proteins,
+                Proteins = foodModel.Proteins,
                 Carbohydrates = foodModel.Carbohydrates,
-                Fats= foodModel.Fats,
+                Fats = foodModel.Fats,
                 Description = foodModel.Description,
                 PictureUrl = foodModel.PictureUrl,
             };
