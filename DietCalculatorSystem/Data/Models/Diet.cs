@@ -10,7 +10,7 @@ namespace DietCalculatorSystem.Data.Models
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         //Total
-        public int TotalCalories { get; set; }
+        public double TotalCalories { get; set; }
         public double TotalProteins { get; set; }
         public double TotalFats { get; set; }
         public double TotalCarbohydrates { get; set; }

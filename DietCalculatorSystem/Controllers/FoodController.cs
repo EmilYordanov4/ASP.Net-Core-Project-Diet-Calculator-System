@@ -3,12 +3,11 @@ using DietCalculatorSystem.Data.Models;
 using DietCalculatorSystem.Models.Foods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq;
 
 namespace DietCalculatorSystem.Controllers
 {
-    public class FoodController : Controller
+	public class FoodController : Controller
     {
         private readonly DietCalculatorDbContext data;
 
