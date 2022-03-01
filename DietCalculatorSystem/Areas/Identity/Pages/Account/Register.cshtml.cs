@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using DietCalculatorSystem.Data.Models.OneToOneRelationships;
+using DietCalculatorSystem.Data;
 
 namespace DietCalculatorSystem.Areas.Identity.Pages.Account
 {
@@ -27,13 +28,16 @@ namespace DietCalculatorSystem.Areas.Identity.Pages.Account
         private readonly UserManager<User> userManager;
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailSender emailSender;
+        private readonly DietCalculatorDbContext data;
 
         public RegisterModel(
+            DietCalculatorDbContext data,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
+            this.data = data;
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
@@ -89,7 +93,6 @@ namespace DietCalculatorSystem.Areas.Identity.Pages.Account
                 var deficit = new Diet();
                 var surplus = new Diet();
 
-
                 var balancedDiet = new BalancedDiet
                 {
                     User = user,
@@ -120,6 +123,10 @@ namespace DietCalculatorSystem.Areas.Identity.Pages.Account
                 user.DeficitDietId = deficit.Id;
                 user.SurplusDiet = surplusDiet;
                 user.SurplusDietId = surplus.Id;
+
+                this.data.Diets.AddRange(balanced, deficit, surplus);
+
+                this.data.SaveChanges();
 
                 var result = await userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

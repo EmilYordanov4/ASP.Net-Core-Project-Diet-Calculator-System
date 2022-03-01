@@ -4,6 +4,9 @@ using DietCalculatorSystem.Data.Models.OneToOneRelationships;
 using DietCalculatorSystem.Models.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DietCalculatorSystem.Controllers
@@ -42,26 +45,31 @@ namespace DietCalculatorSystem.Controllers
             var calories = calculateModel.Gender == "Male" ? CalculateMaleCalories(calculateModel) :
                                                              CalculateFemaleCalories(calculateModel);
 
+            var percent = (double)(calories * 0.15);
+
             var user = data.Users.FirstOrDefault(x => x.FullName == this.User.Identity.Name);
 
-            var diet = new Diet
-            {
-                TotalCalories = (double)calories,
-            };
+            var balancedDiet = data
+                .BalancedDiets
+                .Include(a => a.Diet)
+                .FirstOrDefault(x => x.User == user)
+                .Diet;
 
-            var balancedDiet = new BalancedDiet
-            {
-                User = user,
-                UserId = user.Id,
-                Diet = diet,
-                DietId = diet.Id,
-            };
+            var surplusDiet = data
+                .SurplusDiets
+                .Include(a => a.Diet)
+                .FirstOrDefault(x => x.User == user)
+                .Diet;
 
-            data.Diets.Add(diet);
+            var deficitDiet = data
+                .DeficitDiets
+                .Include(a => a.Diet)
+                .FirstOrDefault(x => x.User == user)
+                .Diet;
 
-            data.BalancedDiets.Add(balancedDiet);
-            //Decifit
-            //Surplus
+            balancedDiet.TotalCalories = Math.Round((double)calories, 2);
+            surplusDiet.TotalCalories = Math.Round((double)calories + percent, 2);
+            deficitDiet.TotalCalories = Math.Round((double)calories - percent, 2);
 
             data.SaveChanges();
 
