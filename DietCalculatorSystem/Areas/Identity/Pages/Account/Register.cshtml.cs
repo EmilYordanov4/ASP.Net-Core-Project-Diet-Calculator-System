@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using DietCalculatorSystem.Data.Models.OneToOneRelationships;
 
 namespace DietCalculatorSystem.Areas.Identity.Pages.Account
 {
@@ -83,6 +84,43 @@ namespace DietCalculatorSystem.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new User {FullName = Input.FullName, UserName = Input.FullName, Email = Input.Email };
+
+                var balanced = new Diet();
+                var deficit = new Diet();
+                var surplus = new Diet();
+
+
+                var balancedDiet = new BalancedDiet
+                {
+                    User = user,
+                    UserId = user.Id,
+                    Diet = balanced,
+                    DietId = balanced.Id
+                };
+
+                var deficitDiet = new DeficitDiet
+                {
+                    User = user,
+                    UserId = user.Id,
+                    Diet = deficit,
+                    DietId = deficit.Id
+                };
+
+                var surplusDiet = new SurplusDiet
+                {
+                    User = user,
+                    UserId = user.Id,
+                    Diet = surplus,
+                    DietId = surplus.Id
+                };
+
+                user.BalancedDiet = balancedDiet;
+                user.BalancedDietId = balanced.Id;
+                user.DeficitDiet = deficitDiet;
+                user.DeficitDietId = deficit.Id;
+                user.SurplusDiet = surplusDiet;
+                user.SurplusDietId = surplus.Id;
+
                 var result = await userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

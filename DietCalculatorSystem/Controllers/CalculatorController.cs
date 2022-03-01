@@ -60,6 +60,8 @@ namespace DietCalculatorSystem.Controllers
             data.Diets.Add(diet);
 
             data.BalancedDiets.Add(balancedDiet);
+            //Decifit
+            //Surplus
 
             data.SaveChanges();
 
