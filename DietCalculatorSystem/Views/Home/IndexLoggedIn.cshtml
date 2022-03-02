@@ -1,1 +1,17 @@
-﻿<h1>To do - Implement FOTD</h1>
+﻿@model Food
+
+<h1>Food of the day!</h1>
+
+<div class="card" style="width: 24rem;">
+  <img class="card-img-top" src="@Model.PictureUrl" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">@Model.Name</h5>
+    <p class="card-text">@Model.Description</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Calories: @Model.Calories</li>
+    <li class="list-group-item">Proteins: @Model.Proteins</li>
+    <li class="list-group-item">Fats: @Model.Fats</li>
+    <li class="list-group-item">Carbohydrates: @Model.Carbohydrates</li>
+  </ul>
+</div>

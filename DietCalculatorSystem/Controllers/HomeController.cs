@@ -1,8 +1,5 @@
 ﻿using DietCalculatorSystem.Data;
-using DietCalculatorSystem.Data.Models;
-using DietCalculatorSystem.Data.Models.OneToOneRelationships;
 using DietCalculatorSystem.Models;
-using DietCalculatorSystem.Models.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,7 +8,7 @@ using System.Linq;
 
 namespace DietCalculatorSystem.Controllers
 {
-	public class HomeController : Controller
+    public class HomeController : Controller
     {
         private readonly DietCalculatorDbContext data;
 
@@ -33,7 +30,17 @@ namespace DietCalculatorSystem.Controllers
         [Authorize]
         public IActionResult IndexLoggedIn()
         {
-            return View();
+            var allFoods = data
+                .Foods
+                .ToList();
+
+            var count = allFoods.Count();
+
+            Random rnd = new Random();
+
+            var food = allFoods[rnd.Next(0, count)];
+
+            return View(food);
         }       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

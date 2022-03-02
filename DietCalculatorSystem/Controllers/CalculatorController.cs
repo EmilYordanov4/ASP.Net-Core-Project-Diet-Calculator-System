@@ -1,12 +1,10 @@
 ﻿using DietCalculatorSystem.Data;
 using DietCalculatorSystem.Data.Models;
-using DietCalculatorSystem.Data.Models.OneToOneRelationships;
 using DietCalculatorSystem.Models.Home;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace DietCalculatorSystem.Controllers
@@ -71,9 +69,60 @@ namespace DietCalculatorSystem.Controllers
             surplusDiet.TotalCalories = Math.Round((double)calories + percent, 2);
             deficitDiet.TotalCalories = Math.Round((double)calories - percent, 2);
 
+            CalculateMacros(balancedDiet, calculateModel.Weight);
+            CalculateMacros(surplusDiet, calculateModel.Weight);
+            CalculateMacros(deficitDiet, calculateModel.Weight);
+
+            SplitMeals(balancedDiet);
+            SplitMeals(surplusDiet);
+            SplitMeals(deficitDiet);
+
             data.SaveChanges();
 
             return Redirect("/Food/All");
+        }
+
+        private static void SplitMeals(Diet diet)
+        {
+            var mealCalories = Math.Round((double)diet.TotalCalories / 3, 2);
+            var mealProteins = Math.Round((double)diet.TotalProteins / 3, 2);
+            var mealFats = Math.Round((double)diet.TotalFats / 3, 2);
+            var mealCarbohydrates = Math.Round((double)diet.TotalCarbohydrates / 3, 2);
+
+            //Breakfast
+            diet.BreakfastCalories = mealCalories;
+            diet.BreakfastProteins = mealProteins;
+            diet.BreakfastFats = mealFats;
+            diet.BreakfastCarbohydrates = mealCarbohydrates;
+
+            //Lunch
+            diet.LunchCalories = mealCalories;
+            diet.LunchProteins = mealProteins;
+            diet.LunchFats = mealFats;
+            diet.LunchCarbohydrates = mealCarbohydrates;
+
+            //Dinner
+            diet.DinnerCalories = mealCalories;
+            diet.DinnerProteins = mealProteins;
+            diet.DinnerFats = mealFats;
+            diet.DinnerCarbohydrates = mealCarbohydrates;
+
+        }
+
+        private static void CalculateMacros(Diet diet, double? weight)
+        {
+            var caloriesLeft = diet.TotalCalories;
+
+            diet.TotalProteins = Math.Round((double)weight * 1.8, 2);
+
+
+            diet.TotalFats = Math.Round((double)(caloriesLeft * 0.20) / 9, 2);
+
+            caloriesLeft -= diet.TotalProteins * 4;
+
+            caloriesLeft -= diet.TotalFats * 9;
+
+            diet.TotalCarbohydrates = Math.Round((double)caloriesLeft / 4, 2);
         }
 
         private static double? CalculateFemaleCalories(CalculateCaloriesFormModel calculateModel)
