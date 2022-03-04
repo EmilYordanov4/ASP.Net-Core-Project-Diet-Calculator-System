@@ -1,7 +1,9 @@
 ﻿using DietCalculatorSystem.Data;
+using DietCalculatorSystem.Models.Diets;
 using DietCalculatorSystem.Models.Foods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace DietCalculatorSystem.Controllers
@@ -16,10 +18,38 @@ namespace DietCalculatorSystem.Controllers
         }
 
         [Authorize]
-        public IActionResult Balanced([FromQuery] AllFoodsQueryModel query)
+        public IActionResult Balanced([FromQuery] DietFormModel query)
         {
             var foodsAsQuery = data.Foods.AsQueryable();
 
+            var balancedDiet = data
+                .BalancedDiets
+                .Include(a => a.Diet)
+                .FirstOrDefault(a => a.User.FullName == this.User.Identity.Name);
+
+            //Total
+            query.TotalCalories = balancedDiet.Diet.TotalCalories;
+            query.TotalProteins = balancedDiet.Diet.TotalProteins;
+            query.TotalFats = balancedDiet.Diet.TotalFats;
+            query.TotalCarbohydrates = balancedDiet.Diet.TotalCarbohydrates;
+
+            //Breakfast
+            query.BreakfastCalories = balancedDiet.Diet.BreakfastCalories;
+            query.BreakfastProteins = balancedDiet.Diet.BreakfastProteins;
+            query.BreakfastFats = balancedDiet.Diet.BreakfastFats;
+            query.BreakfastCarbohydrates = balancedDiet.Diet.BreakfastCarbohydrates;
+
+            //Lunch
+            query.LunchCalories = balancedDiet.Diet.LunchCalories;
+            query.LunchProteins = balancedDiet.Diet.LunchProteins;
+            query.LunchFats = balancedDiet.Diet.LunchFats;
+            query.LunchCarbohydrates = balancedDiet.Diet.LunchCarbohydrates;
+
+            //Dinner
+            query.DinnerCalories = balancedDiet.Diet.DinnerCalories;
+            query.DinnerProteins = balancedDiet.Diet.DinnerProteins;
+            query.DinnerFats = balancedDiet.Diet.DinnerFats;
+            query.DinnerCarbohydrates = balancedDiet.Diet.DinnerCarbohydrates;
 
             if (!string.IsNullOrWhiteSpace(query.SearchTerm))
             {
