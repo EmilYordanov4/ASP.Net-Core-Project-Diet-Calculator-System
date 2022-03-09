@@ -4,14 +4,16 @@ using DietCalculatorSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DietCalculatorSystem.Data.Migrations
 {
     [DbContext(typeof(DietCalculatorDbContext))]
-    partial class DietCalculatorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220309204910_AddedIEnumerablesIntoDietTest")]
+    partial class AddedIEnumerablesIntoDietTest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,6 +96,18 @@ namespace DietCalculatorSystem.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DietId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DietId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DietId2")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DietId3")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<double?>("Fats")
                         .IsRequired()
                         .HasColumnType("float");
@@ -112,67 +126,15 @@ namespace DietCalculatorSystem.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DietId");
+
+                    b.HasIndex("DietId1");
+
+                    b.HasIndex("DietId2");
+
+                    b.HasIndex("DietId3");
+
                     b.ToTable("Foods");
-                });
-
-            modelBuilder.Entity("DietCalculatorSystem.Data.Models.ManyToManyRelationships.BreakfastFood", b =>
-                {
-                    b.Property<string>("DietId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FoodId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("DietId", "FoodId");
-
-                    b.HasIndex("FoodId");
-
-                    b.ToTable("BreakfastFoods");
-                });
-
-            modelBuilder.Entity("DietCalculatorSystem.Data.Models.ManyToManyRelationships.DinnerFood", b =>
-                {
-                    b.Property<string>("DietId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FoodId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("DietId", "FoodId");
-
-                    b.HasIndex("FoodId");
-
-                    b.ToTable("DinnerFoods");
-                });
-
-            modelBuilder.Entity("DietCalculatorSystem.Data.Models.ManyToManyRelationships.LunchFood", b =>
-                {
-                    b.Property<string>("DietId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FoodId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("DietId", "FoodId");
-
-                    b.HasIndex("FoodId");
-
-                    b.ToTable("LunchFoods");
-                });
-
-            modelBuilder.Entity("DietCalculatorSystem.Data.Models.ManyToManyRelationships.TotalFood", b =>
-                {
-                    b.Property<string>("DietId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FoodId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("DietId", "FoodId");
-
-                    b.HasIndex("FoodId");
-
-                    b.ToTable("TotalFoods");
                 });
 
             modelBuilder.Entity("DietCalculatorSystem.Data.Models.OneToOneRelationships.BalancedDiet", b =>
@@ -443,80 +405,23 @@ namespace DietCalculatorSystem.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("DietCalculatorSystem.Data.Models.ManyToManyRelationships.BreakfastFood", b =>
+            modelBuilder.Entity("DietCalculatorSystem.Data.Models.Food", b =>
                 {
-                    b.HasOne("DietCalculatorSystem.Data.Models.Diet", "Diet")
+                    b.HasOne("DietCalculatorSystem.Data.Models.Diet", null)
                         .WithMany("BreakfastFoods")
-                        .HasForeignKey("DietId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DietId");
 
-                    b.HasOne("DietCalculatorSystem.Data.Models.Food", "Food")
-                        .WithMany()
-                        .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Diet");
-
-                    b.Navigation("Food");
-                });
-
-            modelBuilder.Entity("DietCalculatorSystem.Data.Models.ManyToManyRelationships.DinnerFood", b =>
-                {
-                    b.HasOne("DietCalculatorSystem.Data.Models.Diet", "Diet")
+                    b.HasOne("DietCalculatorSystem.Data.Models.Diet", null)
                         .WithMany("DinnerFoods")
-                        .HasForeignKey("DietId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DietId1");
 
-                    b.HasOne("DietCalculatorSystem.Data.Models.Food", "Food")
-                        .WithMany()
-                        .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("DietCalculatorSystem.Data.Models.Diet", null)
+                        .WithMany("Foods")
+                        .HasForeignKey("DietId2");
 
-                    b.Navigation("Diet");
-
-                    b.Navigation("Food");
-                });
-
-            modelBuilder.Entity("DietCalculatorSystem.Data.Models.ManyToManyRelationships.LunchFood", b =>
-                {
-                    b.HasOne("DietCalculatorSystem.Data.Models.Diet", "Diet")
+                    b.HasOne("DietCalculatorSystem.Data.Models.Diet", null)
                         .WithMany("LunchFoods")
-                        .HasForeignKey("DietId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DietCalculatorSystem.Data.Models.Food", "Food")
-                        .WithMany()
-                        .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Diet");
-
-                    b.Navigation("Food");
-                });
-
-            modelBuilder.Entity("DietCalculatorSystem.Data.Models.ManyToManyRelationships.TotalFood", b =>
-                {
-                    b.HasOne("DietCalculatorSystem.Data.Models.Diet", "Diet")
-                        .WithMany("TotalFoods")
-                        .HasForeignKey("DietId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DietCalculatorSystem.Data.Models.Food", "Food")
-                        .WithMany()
-                        .HasForeignKey("FoodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Diet");
-
-                    b.Navigation("Food");
+                        .HasForeignKey("DietId3");
                 });
 
             modelBuilder.Entity("DietCalculatorSystem.Data.Models.OneToOneRelationships.BalancedDiet", b =>
@@ -633,9 +538,9 @@ namespace DietCalculatorSystem.Data.Migrations
 
                     b.Navigation("DinnerFoods");
 
-                    b.Navigation("LunchFoods");
+                    b.Navigation("Foods");
 
-                    b.Navigation("TotalFoods");
+                    b.Navigation("LunchFoods");
                 });
 
             modelBuilder.Entity("DietCalculatorSystem.Data.Models.User", b =>

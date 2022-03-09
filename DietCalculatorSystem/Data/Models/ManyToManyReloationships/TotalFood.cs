@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DietCalculatorSystem.Data.Models
+namespace DietCalculatorSystem.Data.Models.ManyToManyRelationships
 {
     public class TotalFood
     {

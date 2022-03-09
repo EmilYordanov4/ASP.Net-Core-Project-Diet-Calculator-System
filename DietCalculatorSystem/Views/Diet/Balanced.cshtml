@@ -8,23 +8,95 @@
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <body>
-	<div class="row no-gutters">
+	<div class="row">
 		<div class="col-md-6 no-gutters">
 			<div class="leftside justify-content-center align-items-md-center">
-				<h3>Total</h3>
-				<table>
-					<tr>
-						<th style="text-align: center">Calories</th>
-						<th style="padding: 10px; text-align: center">Proteins</th>
-						<th style="padding: 10px; text-align: center">Fats</th>
-						<th style="padding: 10px; text-align: center">Carbohydrates</th>
-					</tr>
-					<tr>
-						<td>@Model.TotalCalories</td>
-						<td>@Model.TotalProteins</td>
-						<td>@Model.TotalFats</td>
-						<td>@Model.TotalCarbohydrates</td>
-					</tr>
+				<h3 style="text-align:center">Total</h3>
+				<table class="table">
+					<thead class="thead-light">
+						<tr style="text-align:center">
+							<th scope="col">Calories</th>
+							<th scope="col">Proteins</th>
+							<th scope="col">Fats</th>
+							<th scope="col">Carbohydrates</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr style="text-align:center">
+							<td>@Model.TotalCalories</td>
+							<td>@Model.TotalProteins</td>
+							<td>@Model.TotalFats</td>
+							<td>@Model.TotalCarbohydrates</td>
+						</tr>
+				</table>
+				<h3 style="text-align:center">Breakfast</h3>
+				<table class="table">
+					<thead class="thead-light">
+						<tr style="text-align:center">
+							<th scope="col">Name</th>
+							<th scope="col">Calories</th>
+							<th scope="col">Proteins</th>
+							<th scope="col">Fats</th>
+							<th scope="col">Carbohydrates</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var food in @Model.BreakfastFoods)
+						{
+							<tr style="text-align:center">
+								<td>@food.Name</td>
+								<td>@food.Calories</td>
+								<td>@food.Proteins</td>
+								<td>@food.Fats</td>
+								<td>@food.Carbohydrates</td>
+							</tr>
+						}
+				</table>
+				<h3 style="text-align:center">Lunch</h3>
+				<table class="table">
+					<thead class="thead-light">
+						<tr style="text-align:center">
+							<th scope="col">Name</th>
+							<th scope="col">Calories</th>
+							<th scope="col">Proteins</th>
+							<th scope="col">Fats</th>
+							<th scope="col">Carbohydrates</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var food in @Model.LunchFoods)
+						{
+							<tr style="text-align:center">
+								<td>@food.Name</td>
+								<td>@food.Calories</td>
+								<td>@food.Proteins</td>
+								<td>@food.Fats</td>
+								<td>@food.Carbohydrates</td>
+							</tr>
+						}
+				</table>
+				<h3 style="text-align:center">Dinner</h3>
+				<table class="table">
+					<thead class="thead-light">
+						<tr style="text-align:center">
+							<th scope="col">Name</th>
+							<th scope="col">Calories</th>
+							<th scope="col">Proteins</th>
+							<th scope="col">Fats</th>
+							<th scope="col">Carbohydrates</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var food in @Model.DinnerFoods)
+						{
+							<tr style="text-align:center">
+								<td>@food.Name</td>
+								<td>@food.Calories</td>
+								<td>@food.Proteins</td>
+								<td>@food.Fats</td>
+								<td>@food.Carbohydrates</td>
+							</tr>
+						}
 				</table>
 			</div>
 		</div>
@@ -33,11 +105,11 @@
 				<div>
 					<form method="get">
 						<div class="row" mb-5>
-							<div class="form-group col-md-3">
+							<div style="text-align:center" class="form-group col-md-3">
 								<label asp-for="SearchTerm"></label>
 								<input asp-for="SearchTerm" class="form-control" placeholder="Enter food name...">
 							</div>
-							<div class="form-group col-md-4">
+							<div style="text-align:center" class="form-group col-md-4">
 								<div class="form-group">
 									<label asp-for="Sorting"></label>
 									<select asp-for="Sorting" class="form-control">
@@ -55,22 +127,27 @@
 					</form>
 
 					<div>
-						<table>
-							<tr>
-								<th>Picture</th>
-								<th>Calories</th>
-								<th>Proteins</th>
-								<th>Fats</th>
-								<th>Carbohydrates</th>
+						<table class="thead-light">
+							<tr style="text-align:center">
+								<th scope="col">Picture</th>
+								<th scope="col">Calories</th>
+								<th scope="col">Proteins</th>
+								<th scope="col">Fats</th>
+								<th scope="col">Carbohydrates</th>
 							</tr>
 							@foreach (var food in Model.Foods)
 							{
-								<tr>
+								<tr style="text-align:center">
 									<td style="height:25%; width:25%"><a><img src="@food.PictureUrl" class="card-img-bottom"></a></td>
 									<td>@food.Calories</td>
 									<td>@food.Proteins</td>
 									<td>@food.Fats</td>
 									<td>@food.Carbohydrates</td>
+									<td>
+										 <a asp-controller="Diet" asp-action="AddBreakfast" asp-route-id="@food.Id" class="btn btn-danger float-right ml-3">Breakfast</a>
+										 <a asp-controller="Diet" asp-action="AddLunch" asp-route-id="@food.Id" class="btn btn-danger float-right ml-3">Lunch</a>
+										 <a asp-controller="Diet" asp-action="AddDinner" asp-route-id="@food.Id" class="btn btn-danger float-right ml-3">Dinner</a>
+									</td>
 								</tr>
 							}
 						</table>
@@ -83,7 +160,7 @@
 							previousPage = 1;
 						}
 
-						var maxPage = Math.Ceiling((double)Model.TotalFoods / AllFoodsQueryModel.FoodsPerPage);
+						var maxPage = Math.Ceiling((double)Model.TotalFoodsCount / AllFoodsQueryModel.FoodsPerPage);
 					}
 
 					<div class="row mb-5">

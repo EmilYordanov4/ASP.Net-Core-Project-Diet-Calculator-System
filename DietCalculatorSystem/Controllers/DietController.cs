@@ -1,4 +1,5 @@
 ﻿using DietCalculatorSystem.Data;
+using DietCalculatorSystem.Data.Models.ManyToManyRelationships;
 using DietCalculatorSystem.Models.Diets;
 using DietCalculatorSystem.Models.Foods;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +9,7 @@ using System.Linq;
 
 namespace DietCalculatorSystem.Controllers
 {
+    [Authorize]
     public class DietController : Controller
     {
         private readonly DietCalculatorDbContext data;
@@ -17,7 +19,6 @@ namespace DietCalculatorSystem.Controllers
             this.data = data;
         }
 
-        [Authorize]
         public IActionResult Balanced([FromQuery] DietFormModel query)
         {
             var foodsAsQuery = data.Foods.AsQueryable();
@@ -25,6 +26,8 @@ namespace DietCalculatorSystem.Controllers
             var balancedDiet = data
                 .BalancedDiets
                 .Include(a => a.Diet)
+                .ThenInclude(a => a.BreakfastFoods)
+                .ThenInclude(a => a.Food)
                 .FirstOrDefault(a => a.User.FullName == this.User.Identity.Name);
 
             //Total
@@ -38,6 +41,19 @@ namespace DietCalculatorSystem.Controllers
             query.BreakfastProteins = balancedDiet.Diet.BreakfastProteins;
             query.BreakfastFats = balancedDiet.Diet.BreakfastFats;
             query.BreakfastCarbohydrates = balancedDiet.Diet.BreakfastCarbohydrates;
+            query.BreakfastFoods = balancedDiet
+                                    .Diet
+                                    .BreakfastFoods
+                                    .Select(a => new AllFoodsFormModel
+                                    {
+                                        Id = a.Food.Id,
+                                        Name = a.Food.Name,
+                                        Calories = a.Food.Calories,
+                                        Proteins = a.Food.Proteins,
+                                        Fats = a.Food.Fats,
+                                        Carbohydrates = a.Food.Carbohydrates
+                                    })
+                                    .ToList();
 
             //Lunch
             query.LunchCalories = balancedDiet.Diet.LunchCalories;
@@ -82,9 +98,37 @@ namespace DietCalculatorSystem.Controllers
                 })
                 .ToList();
 
-            query.TotalFoods = totalFoods;
+            query.TotalFoodsCount = totalFoods;
 
             return View(query);
+        }
+
+        public IActionResult AddBreakfast(string Id)
+        {
+            var Balanced = data
+                .BalancedDiets
+                .Include(a => a.Diet)
+                .FirstOrDefault(a => a.User.FullName == this.User.Identity.Name);
+
+            var food = data
+                .Foods
+                .FirstOrDefault(a => a.Id == Id);
+
+            var Food = new BreakfastFood
+            {
+                Diet = Balanced.Diet,
+                DietId = Balanced.DietId,
+                Food = food,
+                FoodId = Id
+            };
+
+            Balanced.Diet.BreakfastFoods.Add(Food);
+
+
+            data.BreakfastFoods.Add(Food);
+            data.SaveChanges();
+
+            return Redirect("/Diet/Balanced");
         }
     }
 }
