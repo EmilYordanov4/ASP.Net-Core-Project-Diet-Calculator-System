@@ -94,5 +94,16 @@ namespace DietCalculatorSystem.Controllers
 
             return RedirectToAction(nameof(All));
         }
+
+        [Authorize]
+        public IActionResult Delete(string id)
+        {
+            var food = data.Foods.FirstOrDefault(x => x.Id == id);
+
+            data.Foods.Remove(food);
+            data.SaveChanges();
+
+            return RedirectToAction(nameof(All));
+        }
     }
 }

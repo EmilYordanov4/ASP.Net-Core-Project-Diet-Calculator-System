@@ -9,8 +9,8 @@
 </head>
 <body>
 	<div class="row">
-		<div class="col-md-6 no-gutters">
-			<div class="leftside justify-content-center align-items-md-center">
+		<div class="col-lg-7 no-gutters">
+			<div>
 				<h3 style="text-align:center">Total</h3>
 				<table class="table">
 					<thead class="thead-light">
@@ -37,7 +37,9 @@
 							<th scope="col">Calories</th>
 							<th scope="col">Proteins</th>
 							<th scope="col">Fats</th>
-							<th scope="col">Carbohydrates</th>
+							<th scope="col">Carbs</th>
+							<th scope="col">Quantity</th>
+							<th scope="col"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -49,6 +51,10 @@
 								<td>@food.Proteins</td>
 								<td>@food.Fats</td>
 								<td>@food.Carbohydrates</td>
+								<td>@food.Quantity</td>
+								<td>
+									<a asp-controller="Diet" asp-action="RemoveBreakfast" asp-route-foodId="@food.Id" asp-route-dietId="@Model.DietId" class="btn btn-danger float-right ml-3">Remove</a>
+								</td>
 							</tr>
 						}
 				</table>
@@ -60,7 +66,9 @@
 							<th scope="col">Calories</th>
 							<th scope="col">Proteins</th>
 							<th scope="col">Fats</th>
-							<th scope="col">Carbohydrates</th>
+							<th scope="col">Carbs</th>
+							<th scope="col">Quantity</th>
+							<th scope="col"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -72,6 +80,10 @@
 								<td>@food.Proteins</td>
 								<td>@food.Fats</td>
 								<td>@food.Carbohydrates</td>
+								<td>@food.Quantity</td>
+								<td>
+									<a asp-controller="Diet" asp-action="RemoveLunch" asp-route-foodId="@food.Id" asp-route-dietId="@Model.DietId" class="btn btn-danger float-right ml-3">Remove</a>
+								</td>
 							</tr>
 						}
 				</table>
@@ -83,7 +95,9 @@
 							<th scope="col">Calories</th>
 							<th scope="col">Proteins</th>
 							<th scope="col">Fats</th>
-							<th scope="col">Carbohydrates</th>
+							<th scope="col">Carbs</th>
+							<th scope="col">Quantity</th>
+							<th scope="col"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -95,13 +109,17 @@
 								<td>@food.Proteins</td>
 								<td>@food.Fats</td>
 								<td>@food.Carbohydrates</td>
+								<td>@food.Quantity</td>
+								<td>
+									<a asp-controller="Diet" asp-action="RemoveDinner" asp-route-foodId="@food.Id" asp-route-dietId="@Model.DietId" class="btn btn-danger float-right ml-3">Remove</a>
+								</td>
 							</tr>
 						}
 				</table>
 			</div>
 		</div>
-		<div class="col-md-6 no-gutters">
-			<div class="rightside justify-content-center align-items-md-center">
+		<div class="col-lg-5 no-gutters">
+			<div>
 				<div>
 					<form method="get">
 						<div class="row" mb-5>
@@ -134,9 +152,11 @@
 								<th scope="col">Proteins</th>
 								<th scope="col">Fats</th>
 								<th scope="col">Carbohydrates</th>
+								<th scope="col"></th>
 							</tr>
 							@foreach (var food in Model.Foods)
 							{
+
 								<tr style="text-align:center">
 									<td style="height:25%; width:25%"><a><img src="@food.PictureUrl" class="card-img-bottom"></a></td>
 									<td>@food.Calories</td>
@@ -144,9 +164,9 @@
 									<td>@food.Fats</td>
 									<td>@food.Carbohydrates</td>
 									<td>
-										 <a asp-controller="Diet" asp-action="AddBreakfast" asp-route-id="@food.Id" class="btn btn-danger float-right ml-3">Breakfast</a>
-										 <a asp-controller="Diet" asp-action="AddLunch" asp-route-id="@food.Id" class="btn btn-danger float-right ml-3">Lunch</a>
-										 <a asp-controller="Diet" asp-action="AddDinner" asp-route-id="@food.Id" class="btn btn-danger float-right ml-3">Dinner</a>
+										<a asp-controller="Diet" asp-action="AddBreakfast" asp-route-id="@food.Id" class="btn btn-danger float-right ml-3">Breakfast</a>
+										<a asp-controller="Diet" asp-action="AddLunch" asp-route-id="@food.Id" class="btn btn-danger float-right ml-3">Lunch</a>
+										<a asp-controller="Diet" asp-action="AddDinner" asp-route-id="@food.Id" class="btn btn-danger float-right ml-3">Dinner</a>
 									</td>
 								</tr>
 							}
@@ -160,7 +180,7 @@
 							previousPage = 1;
 						}
 
-						var maxPage = Math.Ceiling((double)Model.TotalFoodsCount / AllFoodsQueryModel.FoodsPerPage);
+						var maxPage = Math.Ceiling((double)Model.TotalFoodsCount / DietFormModel.FoodsPerPage);
 					}
 
 					<div class="row mb-5">

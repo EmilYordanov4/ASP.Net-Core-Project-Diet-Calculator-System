@@ -6,7 +6,8 @@ namespace DietCalculatorSystem.Models.Diets
 {
     public class DietFormModel
     {
-        public double? TotalCalories { get; set; }
+        public string DietId { get; set; }
+        public double? TotalCalories { get; set; } 
         public double? TotalProteins { get; set; }
         public double? TotalFats { get; set; }
         public double? TotalCarbohydrates { get; set; }
@@ -35,7 +36,7 @@ namespace DietCalculatorSystem.Models.Diets
         public ICollection<AllFoodsFormModel> DinnerFoods { get; set; } = new List<AllFoodsFormModel>();
 
         //Search
-        public const int FoodsPerPage = 4;
+        public const int FoodsPerPage = 5;
 
         public int CurrentPage { get; set; } = 1;
 

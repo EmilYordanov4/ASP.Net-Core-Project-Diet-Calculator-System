@@ -15,5 +15,7 @@
         public double? Fats { get; set; }
 
         public double? Carbohydrates { get; set; }
+
+        public int Quantity { get; set; }
     }
 }

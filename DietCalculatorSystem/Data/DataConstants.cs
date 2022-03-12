@@ -24,6 +24,7 @@
             public const int MaxFats = 100;
             public const int MinCarbohydrates = 0;
             public const int MaxCarbohydrates = 100;
+            public const string ValidNumberRegex = @"^\d+[\.\d]*$";
         }
 
         public class Calculator

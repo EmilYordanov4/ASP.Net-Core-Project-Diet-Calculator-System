@@ -20,18 +20,22 @@ namespace DietCalculatorSystem.Models.Foods
         public string PictureUrl { get; set; }
 
         [Required]
+        [RegularExpression(ValidNumberRegex, ErrorMessage = "Invalid number! It should be separeted with a '.' symbol instead of ','!")]
         [Range(MinCalories, MaxCalories)]
         public double? Calories { get; set; }
 
         [Required]
+        [RegularExpression(ValidNumberRegex, ErrorMessage = "Invalid number! It should be separeted with a '.' symbol instead of ','!")]
         [Range(MinProteins, MaxProteins)]
         public double? Proteins { get; set; }
 
         [Required]
+        [RegularExpression(ValidNumberRegex, ErrorMessage = "Invalid number! It should be separeted with a '.' symbol instead of ','!")]
         [Range(MinFats, MaxFats)]
         public double? Fats { get; set; }
 
         [Required]
+        [RegularExpression(ValidNumberRegex, ErrorMessage = "Invalid number! It should be separeted with a '.' symbol instead of ','!")]
         [Range(MinCarbohydrates, MaxCarbohydrates)]
         public double? Carbohydrates { get; set; }
     }

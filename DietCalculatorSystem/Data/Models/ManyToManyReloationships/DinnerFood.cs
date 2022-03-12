@@ -14,5 +14,7 @@ namespace DietCalculatorSystem.Data.Models.ManyToManyRelationships
         [Required]
         public string FoodId { get; set; }
         public Food Food { get; set; }
+
+        public int Quantity { get; set; } = 0;
     }
 }
