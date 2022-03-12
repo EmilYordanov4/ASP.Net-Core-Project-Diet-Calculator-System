@@ -1,0 +1,43 @@
+﻿@model DetailedFoodFormModel
+
+<html>
+<head>
+	<title>Test Split Screen</title>
+
+	<link rel="stylesheet" href="~/css/site.css" />
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+	<div class="row">
+		<div class="col-lg-7 no-gutters">
+			<div class="card">
+				<div class="card-body">
+					<h3 class="card-title">@Model.MainFood.Name</h3>
+					<h5 class="card-text">@Model.MainFood.Description</h5>
+					<h7 class="card-text">Calories: @Model.MainFood.Calories</h7>
+					<h7 class="card-text">Proteins: @Model.MainFood.Proteins</h7>
+					<h7 class="card-text">Fats: @Model.MainFood.Fats</h7>
+					<h7 class="card-text">Carbs: @Model.MainFood.Carbohydrates</h7>
+					<img class="card-img-bottom" style="margin-top:20%" src="@Model.MainFood.PictureUrl" alt="Card image cap">
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-5 no-gutters">
+			<div class="card">
+				<div class="card-body">
+					<h3 class="card-title">@Model.FirstSuggestedFood.Name</h3>
+					<h5 class="card-text">Calories: @Model.FirstSuggestedFood.Calories</h5>
+					<img class="card-img-top" style="width:80%" src="@Model.FirstSuggestedFood.PictureUrl" alt="Card image cap">
+					<a asp-controller="Food" asp-action="Details" asp-route-id="@Model.FirstSuggestedFood.Id" class="btn btn-primary float-left">See</a>
+				</div>
+				<div class="card-body">
+					<h3 class="card-title">@Model.SecondSuggestedFood.Name</h3>
+					<h5 class="card-text">Calories: @Model.SecondSuggestedFood.Calories</h5>
+					<img class="card-img-top" style="width:80%" src="@Model.SecondSuggestedFood.PictureUrl" alt="Card image cap">
+					<a asp-controller="Food" asp-action="Details" asp-route-id="@Model.SecondSuggestedFood.Id" class="btn btn-primary float-left">See</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

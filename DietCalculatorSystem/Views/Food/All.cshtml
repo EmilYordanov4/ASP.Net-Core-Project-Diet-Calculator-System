@@ -41,7 +41,7 @@
 				<p class="card-text">Proteins: @food.Proteins grams</p>
 				<p class="card-text">Fats: @food.Fats grams</p>
 				<p class="card-text">Carbohydrates: @food.Carbohydrates grams</p>
-				<a asp-controller="Food" asp-action="Details" asp-route-id="@food.Name" class="btn btn-primary float-left">Details</a>
+				<a asp-controller="Food" asp-action="Details" asp-route-id="@food.Id" class="btn btn-primary float-left">Details</a>
 				<a asp-controller="Food" asp-action="Delete" asp-route-id="@food.Id" class="btn btn-danger float-right">Delete</a>
 			</div>
 		</div>

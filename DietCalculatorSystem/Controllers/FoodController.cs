@@ -3,6 +3,7 @@ using DietCalculatorSystem.Data.Models;
 using DietCalculatorSystem.Models.Foods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 
 namespace DietCalculatorSystem.Controllers
@@ -93,6 +94,35 @@ namespace DietCalculatorSystem.Controllers
             data.SaveChanges();
 
             return RedirectToAction(nameof(All));
+        }
+
+        public IActionResult Details(string id) 
+        {
+            var allFoods = data
+                .Foods
+                .ToList();
+
+            var mainFood = allFoods
+                .FirstOrDefault(x => x.Id == id);
+
+            allFoods.Remove(mainFood);
+
+            Random rnd = new Random();
+
+            var suggestedFoodOne = allFoods[rnd.Next(0, allFoods.Count())];
+
+            allFoods.Remove(suggestedFoodOne);
+
+            var suggestedFoodTwo = allFoods[rnd.Next(0, allFoods.Count())];
+
+            var foods = new DetailedFoodFormModel
+            {
+                MainFood = mainFood,
+                FirstSuggestedFood = suggestedFoodOne,
+                SecondSuggestedFood = suggestedFoodTwo
+            };
+
+            return this.View(foods);
         }
 
         [Authorize]
