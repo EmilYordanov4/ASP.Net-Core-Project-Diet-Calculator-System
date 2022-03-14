@@ -18,14 +18,31 @@
 				</button>
 				<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 					<ul class="navbar-nav flex-grow-1">
-						<a class="nav-link text-dark" asp-area="" asp-controller="Food" asp-action="All">Food</a>
+						<a class="nav-link text-dark" style="vertical-align: middle !important" asp-area="" asp-controller="Food" asp-action="All">Food</a>
 						@if (User.Identity.IsAuthenticated)
 						{
 							<li class="nav-item">
 								<a class="nav-link text-dark" asp-area="" asp-controller="Calculator" asp-action="Calculator">Calculator</a>
 							</li>
 							<li>
-								<a class="nav-link text-dark" asp-area="" asp-controller="Diet" asp-action="Balanced">Balanced Diet</a>
+								<button type="button" class="btn btn-primary"
+									data-toggle="toggle" data-target="#expandingButton">
+									Diets
+								</button>
+
+								<div id="expandingButton">
+									<ul class="navbar-nav flex-grow-1">
+										<li class="nav-item">
+											<a class="nav-link text-dark" asp-area="" asp-controller="Diet" asp-action="Deficit">Deficit</a>
+										</li>
+										<li class="nav-item"> 
+											<a class="nav-link text-dark" asp-area="" asp-controller="Diet" asp-action="Balanced">Balanced</a>
+										</li>
+										<li class="nav-item">
+											<a class="nav-link text-dark" asp-area="" asp-controller="Diet" asp-action="Surplus">Surplus</a>
+										</li>
+									</ul>
+								</div>
 							</li>
 						}
 					</ul>
