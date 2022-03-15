@@ -1,6 +1,8 @@
 using DietCalculatorSystem.Data;
 using DietCalculatorSystem.Data.Models;
 using DietCalculatorSystem.Infrastructure;
+using DietCalculatorSystem.Services.Diets;
+using DietCalculatorSystem.Services.Foods;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -40,6 +42,9 @@ namespace DietCalculatorSystem
             .AddEntityFrameworkStores<DietCalculatorDbContext>();
 
             services.AddControllersWithViews();
+
+            services.AddTransient<IFoodService, FoodService>();
+            services.AddTransient<IDietService, DietService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

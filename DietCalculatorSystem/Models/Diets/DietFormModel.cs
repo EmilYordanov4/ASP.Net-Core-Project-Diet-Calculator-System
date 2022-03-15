@@ -1,4 +1,5 @@
 ﻿using DietCalculatorSystem.Models.Foods;
+using DietCalculatorSystem.Services.Foods.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,41 +13,27 @@ namespace DietCalculatorSystem.Models.Diets
         public double? TotalFats { get; set; }
         public double? TotalCarbohydrates { get; set; }
 
-        public ICollection<AllFoodsFormModel> TotalFoods { get; set; } = new List<AllFoodsFormModel>();
-
         //Breakfast
-        public double? BreakfastCalories { get; set; }
-        public double? BreakfastProteins { get; set; }
-        public double? BreakfastFats { get; set; }
-        public double? BreakfastCarbohydrates { get; set; }
-        public ICollection<AllFoodsFormModel> BreakfastFoods { get; set; } = new List<AllFoodsFormModel>();
+        public ICollection<FoodServiceModel> BreakfastFoods { get; set; } = new List<FoodServiceModel>();
 
         //Lunch
-        public double? LunchCalories { get; set; }
-        public double? LunchProteins { get; set; }
-        public double? LunchFats { get; set; }
-        public double? LunchCarbohydrates { get; set; }
-        public ICollection<AllFoodsFormModel> LunchFoods { get; set; } = new List<AllFoodsFormModel>();
+        public ICollection<FoodServiceModel> LunchFoods { get; set; } = new List<FoodServiceModel>();
 
         //Dinner
-        public double? DinnerCalories { get; set; }
-        public double? DinnerProteins { get; set; }
-        public double? DinnerFats { get; set; }
-        public double? DinnerCarbohydrates { get; set; }
-        public ICollection<AllFoodsFormModel> DinnerFoods { get; set; } = new List<AllFoodsFormModel>();
+        public ICollection<FoodServiceModel> DinnerFoods { get; set; } = new List<FoodServiceModel>();
 
         //Search
         public const int FoodsPerPage = 5;
 
         public int CurrentPage { get; set; } = 1;
 
-        public int TotalFoodsCount { get; set; }
+        public int TotalFoods { get; set; }
 
         public FoodSorting Sorting { get; set; }
 
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }
 
-        public IEnumerable<AllFoodsFormModel> Foods { get; set; }
+        public IEnumerable<FoodServiceModel> Foods { get; set; }
     }
 }

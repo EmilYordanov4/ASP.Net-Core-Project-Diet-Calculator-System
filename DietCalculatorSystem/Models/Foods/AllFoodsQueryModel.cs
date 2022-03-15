@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using DietCalculatorSystem.Services.Foods.Models;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DietCalculatorSystem.Models.Foods
 {
     public class AllFoodsQueryModel
     {
-        public const int FoodsPerPage = 4;
+        public const int FoodsPerPage = 8;
 
         public int CurrentPage { get; set; } = 1;
 
@@ -16,6 +17,6 @@ namespace DietCalculatorSystem.Models.Foods
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }
 
-        public IEnumerable<AllFoodsFormModel> Foods { get; set; }
+        public IEnumerable<FoodServiceModel> Foods { get; set; }
     }
 }

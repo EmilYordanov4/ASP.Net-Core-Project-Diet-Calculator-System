@@ -1,7 +1,8 @@
 ﻿using DietCalculatorSystem.Data;
 using DietCalculatorSystem.Data.Models.ManyToManyRelationships;
 using DietCalculatorSystem.Models.Diets;
-using DietCalculatorSystem.Models.Foods;
+using DietCalculatorSystem.Services.Diets;
+using DietCalculatorSystem.Services.Foods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,91 +14,124 @@ namespace DietCalculatorSystem.Controllers
     [Authorize]
     public class DietController : Controller
     {
-        private readonly DietCalculatorDbContext data;
+        private const int foodsPerPage = 5;
 
-        public DietController(DietCalculatorDbContext data)
+        private readonly DietCalculatorDbContext data;
+        private readonly IFoodService foods;
+        private readonly IDietService diets;
+
+        public DietController(DietCalculatorDbContext data,
+            IFoodService foods,
+            IDietService diets)
         {
             this.data = data;
+            this.foods = foods;
+            this.diets = diets;
+        }
+
+        public IActionResult Surplus([FromQuery] DietFormModel query)
+        {
+            query.DietId = diets.GetDietId(this.User.Identity.Name, nameof(Surplus));
+
+            var diet = diets.GetAllMeals(query.DietId);
+
+            query.BreakfastFoods = diet.BreakfastFoods;
+            query.LunchFoods = diet.LunchFoods;
+            query.DinnerFoods = diet.DinnerFoods;
+
+            //Math
+            var consumedCalories =
+                query.BreakfastFoods.Sum(x => x.Calories * x.Quantity) +
+                query.LunchFoods.Sum(x => x.Calories * x.Quantity) +
+                query.DinnerFoods.Sum(x => x.Calories * x.Quantity);
+
+            var consumedProteins = query.BreakfastFoods.Sum(x => x.Proteins * x.Quantity) +
+                query.LunchFoods.Sum(x => x.Proteins * x.Quantity) +
+                query.DinnerFoods.Sum(x => x.Proteins * x.Quantity);
+
+            var consumedFats = query.BreakfastFoods.Sum(x => x.Fats * x.Quantity) +
+                query.LunchFoods.Sum(x => x.Fats * x.Quantity) +
+                query.DinnerFoods.Sum(x => x.Fats * x.Quantity);
+
+            var consumedCarbohydrates = query.BreakfastFoods.Sum(x => x.Carbohydrates * x.Quantity) +
+                query.LunchFoods.Sum(x => x.Carbohydrates * x.Quantity) +
+                query.DinnerFoods.Sum(x => x.Carbohydrates * x.Quantity);
+
+            //Total
+            query.TotalCalories = Math.Round((double)(diet.TotalCalories - consumedCalories), 2);
+            query.TotalProteins = Math.Round((double)(diet.TotalProteins - consumedProteins), 2);
+            query.TotalFats = Math.Round((double)(diet.TotalFats - consumedFats), 2);
+            query.TotalCarbohydrates = Math.Round((double)(diet.TotalCarbohydrates - consumedCarbohydrates), 2);
+
+            //Query
+            var queryResults = this.foods.All(
+                foodsPerPage,
+                query.CurrentPage,
+                query.SearchTerm,
+                query.Sorting);
+
+            query.Foods = queryResults.Foods;
+            query.TotalFoods = queryResults.TotalFoods;
+
+            return View(query);
+        }
+
+        public IActionResult Deficit([FromQuery] DietFormModel query)
+        {
+            query.DietId = diets.GetDietId(this.User.Identity.Name, nameof(Deficit));
+
+            var diet = diets.GetAllMeals(query.DietId);
+
+            query.BreakfastFoods = diet.BreakfastFoods;
+            query.LunchFoods = diet.LunchFoods;
+            query.DinnerFoods = diet.DinnerFoods;
+
+            //Math
+            var consumedCalories =
+                query.BreakfastFoods.Sum(x => x.Calories * x.Quantity) +
+                query.LunchFoods.Sum(x => x.Calories * x.Quantity) +
+                query.DinnerFoods.Sum(x => x.Calories * x.Quantity);
+
+            var consumedProteins = query.BreakfastFoods.Sum(x => x.Proteins * x.Quantity) +
+                query.LunchFoods.Sum(x => x.Proteins * x.Quantity) +
+                query.DinnerFoods.Sum(x => x.Proteins * x.Quantity);
+
+            var consumedFats = query.BreakfastFoods.Sum(x => x.Fats * x.Quantity) +
+                query.LunchFoods.Sum(x => x.Fats * x.Quantity) +
+                query.DinnerFoods.Sum(x => x.Fats * x.Quantity);
+
+            var consumedCarbohydrates = query.BreakfastFoods.Sum(x => x.Carbohydrates * x.Quantity) +
+                query.LunchFoods.Sum(x => x.Carbohydrates * x.Quantity) +
+                query.DinnerFoods.Sum(x => x.Carbohydrates * x.Quantity);
+
+            //Total
+            query.TotalCalories = Math.Round((double)(diet.TotalCalories - consumedCalories), 2);
+            query.TotalProteins = Math.Round((double)(diet.TotalProteins - consumedProteins), 2);
+            query.TotalFats = Math.Round((double)(diet.TotalFats - consumedFats), 2);
+            query.TotalCarbohydrates = Math.Round((double)(diet.TotalCarbohydrates - consumedCarbohydrates), 2);
+
+            //Query
+            var queryResults = this.foods.All(
+                foodsPerPage,
+                query.CurrentPage,
+                query.SearchTerm,
+                query.Sorting);
+
+            query.Foods = queryResults.Foods;
+            query.TotalFoods = queryResults.TotalFoods;
+
+            return View(query);
         }
 
         public IActionResult Balanced([FromQuery] DietFormModel query)
         {
-            var foodsAsQuery = data.Foods.AsQueryable();
+            query.DietId = diets.GetDietId(this.User.Identity.Name, nameof(Balanced));
 
-            var balancedDiet = data
-                .BalancedDiets
-                .Include(a => a.Diet)
-                .ThenInclude(d => d.BreakfastFoods)
-                .ThenInclude(bf => bf.Food)
-                .Include(a => a.Diet)
-                .ThenInclude(d => d.LunchFoods)
-                .ThenInclude(lf => lf.Food)
-                .Include(a => a.Diet)
-                .ThenInclude(d => d.DinnerFoods)
-                .ThenInclude(df => df.Food)
-                .FirstOrDefault(a => a.User.FullName == this.User.Identity.Name);
+            var diet = diets.GetAllMeals(query.DietId);
 
-            query.DietId = balancedDiet.Diet.Id;
-
-            //Breakfast
-            query.BreakfastCalories = balancedDiet.Diet.BreakfastCalories;
-            query.BreakfastProteins = balancedDiet.Diet.BreakfastProteins;
-            query.BreakfastFats = balancedDiet.Diet.BreakfastFats;
-            query.BreakfastCarbohydrates = balancedDiet.Diet.BreakfastCarbohydrates;
-            query.BreakfastFoods = balancedDiet
-                                    .Diet
-                                    .BreakfastFoods
-                                    .Select(a => new AllFoodsFormModel
-                                    {
-                                        Id = a.Food.Id,
-                                        Name = a.Food.Name,
-                                        Calories = a.Food.Calories,
-                                        Proteins = a.Food.Proteins,
-                                        Fats = a.Food.Fats,
-                                        Carbohydrates = a.Food.Carbohydrates,
-                                        Quantity = a.Quantity
-                                    })
-                                    .ToList();
-
-            //Lunch
-            query.LunchCalories = balancedDiet.Diet.LunchCalories;
-            query.LunchProteins = balancedDiet.Diet.LunchProteins;
-            query.LunchFats = balancedDiet.Diet.LunchFats;
-            query.LunchCarbohydrates = balancedDiet.Diet.LunchCarbohydrates;
-            query.LunchFoods = balancedDiet
-                                    .Diet
-                                    .LunchFoods
-                                    .Select(a => new AllFoodsFormModel
-                                    {
-                                        Id = a.Food.Id,
-                                        Name = a.Food.Name,
-                                        Calories = a.Food.Calories,
-                                        Proteins = a.Food.Proteins,
-                                        Fats = a.Food.Fats,
-                                        Carbohydrates = a.Food.Carbohydrates,
-                                        Quantity = a.Quantity
-                                    })
-                                    .ToList();
-
-            //Dinner
-            query.DinnerCalories = balancedDiet.Diet.DinnerCalories;
-            query.DinnerProteins = balancedDiet.Diet.DinnerProteins;
-            query.DinnerFats = balancedDiet.Diet.DinnerFats;
-            query.DinnerCarbohydrates = balancedDiet.Diet.DinnerCarbohydrates;
-            query.DinnerFoods = balancedDiet
-                                    .Diet
-                                    .DinnerFoods
-                                    .Select(a => new AllFoodsFormModel
-                                    {
-                                        Id = a.Food.Id,
-                                        Name = a.Food.Name,
-                                        Calories = a.Food.Calories,
-                                        Proteins = a.Food.Proteins,
-                                        Fats = a.Food.Fats,
-                                        Carbohydrates = a.Food.Carbohydrates,
-                                        Quantity = a.Quantity
-                                    })
-                                    .ToList();
+            query.BreakfastFoods = diet.BreakfastFoods;
+            query.LunchFoods = diet.LunchFoods;
+            query.DinnerFoods = diet.DinnerFoods;
 
             //Math
             var consumedCalories = 
@@ -118,43 +152,20 @@ namespace DietCalculatorSystem.Controllers
                 query.DinnerFoods.Sum(x => x.Carbohydrates * x.Quantity);
 
             //Total
-            query.TotalCalories = Math.Round((double)(balancedDiet.Diet.TotalCalories - consumedCalories),2);
-            query.TotalProteins = Math.Round((double)(balancedDiet.Diet.TotalProteins - consumedProteins), 2);
-            query.TotalFats = Math.Round((double)(balancedDiet.Diet.TotalFats - consumedFats), 2);
-            query.TotalCarbohydrates = Math.Round((double)(balancedDiet.Diet.TotalCarbohydrates - consumedCarbohydrates), 2);
+            query.TotalCalories = Math.Round((double)(diet.TotalCalories - consumedCalories),2);
+            query.TotalProteins = Math.Round((double)(diet.TotalProteins - consumedProteins), 2);
+            query.TotalFats = Math.Round((double)(diet.TotalFats - consumedFats), 2);
+            query.TotalCarbohydrates = Math.Round((double)(diet.TotalCarbohydrates - consumedCarbohydrates), 2);
 
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                foodsAsQuery = foodsAsQuery
-                    .Where(x => x.Name.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
+            //Query
+            var queryResults = this.foods.All(
+                foodsPerPage,
+                query.CurrentPage,
+                query.SearchTerm,
+                query.Sorting);
 
-            int totalFoods = foodsAsQuery.Count();
-
-            foodsAsQuery = query.Sorting switch
-            {
-                FoodSorting.Proteins => foodsAsQuery.OrderByDescending(x => x.Proteins),
-                FoodSorting.Fats => foodsAsQuery.OrderByDescending(x => x.Fats),
-                FoodSorting.Carbohydrates => foodsAsQuery.OrderByDescending(x => x.Carbohydrates),
-                _ => foodsAsQuery.OrderByDescending(x => x.Calories),
-            };
-
-            query.Foods = foodsAsQuery
-                .Skip((query.CurrentPage - 1) * DietFormModel.FoodsPerPage)
-                .Take(DietFormModel.FoodsPerPage)
-                .Select(x => new AllFoodsFormModel
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    PictureUrl = x.PictureUrl,
-                    Calories = x.Calories,
-                    Proteins = x.Proteins,
-                    Fats = x.Fats,
-                    Carbohydrates = x.Carbohydrates,
-                })
-                .ToList();
-
-            query.TotalFoodsCount = totalFoods;
+            query.Foods = queryResults.Foods;
+            query.TotalFoods = queryResults.TotalFoods;
 
             return View(query);
         }

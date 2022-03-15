@@ -1,6 +1,7 @@
 ﻿using DietCalculatorSystem.Data;
 using DietCalculatorSystem.Data.Models;
 using DietCalculatorSystem.Models.Foods;
+using DietCalculatorSystem.Services.Foods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,50 +11,28 @@ namespace DietCalculatorSystem.Controllers
 {
 	public class FoodController : Controller
     {
-        private readonly DietCalculatorDbContext data;
+        private const int foodsPerPage = 8;
 
-        public FoodController(DietCalculatorDbContext data)
+        private readonly DietCalculatorDbContext data;
+        private readonly IFoodService foods;
+
+        public FoodController(DietCalculatorDbContext data,
+            IFoodService foods)
         {
             this.data = data;
+            this.foods = foods;
         }
 
         public IActionResult All([FromQuery] AllFoodsQueryModel query)
         {
-            var foodsAsQuery = data.Foods.AsQueryable();
+            var queryResults = this.foods.All(
+                foodsPerPage,
+                query.CurrentPage,
+                query.SearchTerm,
+                query.Sorting);
 
-
-            if (!string.IsNullOrWhiteSpace(query.SearchTerm))
-            {
-                foodsAsQuery = foodsAsQuery
-                    .Where(x => x.Name.ToLower().Contains(query.SearchTerm.ToLower()));
-            }
-
-            int totalFoods = foodsAsQuery.Count();
-
-            foodsAsQuery = query.Sorting switch
-            {
-                FoodSorting.Proteins => foodsAsQuery.OrderByDescending(x => x.Proteins),
-                FoodSorting.Fats => foodsAsQuery.OrderByDescending(x => x.Fats),
-                FoodSorting.Carbohydrates => foodsAsQuery.OrderByDescending(x => x.Carbohydrates),
-                _ => foodsAsQuery.OrderByDescending(x => x.Calories),
-            };
-
-            query.Foods = foodsAsQuery
-                .Skip((query.CurrentPage - 1) * AllFoodsQueryModel.FoodsPerPage)
-                .Take(AllFoodsQueryModel.FoodsPerPage)
-                .Select(x => new AllFoodsFormModel
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    PictureUrl = x.PictureUrl,
-                    Calories = x.Calories,
-                    Proteins = x.Proteins,
-                    Fats = x.Fats,
-                    Carbohydrates = x.Carbohydrates,
-                })
-                .ToList();
-
-            query.TotalFoods = totalFoods;
+            query.Foods = queryResults.Foods;
+            query.TotalFoods = queryResults.TotalFoods;
 
             return View(query);
         }
