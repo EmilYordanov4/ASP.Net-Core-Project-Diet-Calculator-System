@@ -1,4 +1,4 @@
-﻿@model DetailedFoodFormModel
+﻿@model FoodDetailsServiceModel
 
 <html>
 <head>
@@ -28,13 +28,13 @@
 					<h3 class="card-title">@Model.FirstSuggestedFood.Name</h3>
 					<h5 class="card-text">Calories: @Model.FirstSuggestedFood.Calories</h5>
 					<img class="card-img-top" style="width:80%" src="@Model.FirstSuggestedFood.PictureUrl" alt="Card image cap">
-					<a asp-controller="Food" asp-action="Details" asp-route-id="@Model.FirstSuggestedFood.Id" class="btn btn-primary float-left">See</a>
+					<a asp-controller="Food" asp-action="Details" asp-route-foodId="@Model.FirstSuggestedFood.Id" class="btn btn-primary float-left">See</a>
 				</div>
 				<div class="card-body">
 					<h3 class="card-title">@Model.SecondSuggestedFood.Name</h3>
 					<h5 class="card-text">Calories: @Model.SecondSuggestedFood.Calories</h5>
 					<img class="card-img-top" style="width:80%" src="@Model.SecondSuggestedFood.PictureUrl" alt="Card image cap">
-					<a asp-controller="Food" asp-action="Details" asp-route-id="@Model.SecondSuggestedFood.Id" class="btn btn-primary float-left">See</a>
+					<a asp-controller="Food" asp-action="Details" asp-route-foodId="@Model.SecondSuggestedFood.Id" class="btn btn-primary float-left">See</a>
 				</div>
 			</div>
 		</div>

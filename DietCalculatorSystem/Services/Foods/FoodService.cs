@@ -1,6 +1,8 @@
 ﻿using DietCalculatorSystem.Data;
+using DietCalculatorSystem.Data.Models;
 using DietCalculatorSystem.Models.Foods;
 using DietCalculatorSystem.Services.Foods.Models;
+using System;
 using System.Linq;
 
 namespace DietCalculatorSystem.Services.Foods
@@ -60,6 +62,85 @@ namespace DietCalculatorSystem.Services.Foods
                 FoodsPerPage = foodsPerPage,
                 Foods = allfoods,
             };
+        }
+
+        public void CreateFood(string name,
+            double? calories,
+            double? proteins,
+            double? fats,
+            double? carbohydrates,
+            string description,
+            string pictureUrl)
+        {
+            Food food = new()
+            {
+                Name = name,
+                Calories = calories,
+                Proteins = proteins,
+                Carbohydrates = carbohydrates,
+                Fats = fats,
+                Description = description,
+                PictureUrl = pictureUrl,
+            };
+
+            data.Foods.Add(food);
+
+            data.SaveChanges();
+        }
+
+        public bool FoodExists(string foodName)
+        {
+            return this.data
+                .Foods
+                .Any(x => x.Name == foodName);
+        }
+
+        public FoodDetailsServiceModel GetDetails(string foodId)
+        {
+            var allFoods = data
+                .Foods
+                .ToList();
+
+            var mainFood = allFoods
+                .FirstOrDefault(x => x.Id == foodId);
+
+            allFoods.Remove(mainFood);
+
+            Random rnd = new();
+
+            var suggestedFoodOne = allFoods[rnd.Next(0, allFoods.Count)];
+
+            allFoods.Remove(suggestedFoodOne);
+
+            var suggestedFoodTwo = allFoods[rnd.Next(0, allFoods.Count)];
+
+            return new FoodDetailsServiceModel
+            {
+                MainFood = mainFood,
+                FirstSuggestedFood = suggestedFoodOne,
+                SecondSuggestedFood = suggestedFoodTwo
+            };
+        }
+
+        public Food GetRandomFood()
+        {
+            var allFoods = data
+                .Foods
+                .ToList();
+
+            var count = allFoods.Count();
+
+            Random rnd = new Random();
+
+            return allFoods[rnd.Next(0, count)];
+        }
+
+        public void RemoveFood(string foodId)
+        {
+            var food = data.Foods.FirstOrDefault(x => x.Id == foodId);
+
+            data.Foods.Remove(food);
+            data.SaveChanges();
         }
     }
 }

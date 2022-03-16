@@ -1,4 +1,5 @@
-﻿using DietCalculatorSystem.Models.Foods;
+﻿using DietCalculatorSystem.Data.Models;
+using DietCalculatorSystem.Models.Foods;
 using DietCalculatorSystem.Services.Foods.Models;
 
 namespace DietCalculatorSystem.Services.Foods
@@ -9,5 +10,21 @@ namespace DietCalculatorSystem.Services.Foods
             int currentPage = 1,
             string searchTerm = null,
             FoodSorting foodSorting = FoodSorting.Calories);
+
+        bool FoodExists(string foodName);
+
+        void CreateFood(string name,
+            double? calories,
+            double? proteins,
+            double? fats,
+            double? carbohydrates,
+            string description,
+            string pictureUrl);
+
+        FoodDetailsServiceModel GetDetails(string foodId);
+
+        void RemoveFood(string foodId);
+
+        Food GetRandomFood();
     }
 }

@@ -53,7 +53,7 @@
 								<td>@food.Carbohydrates</td>
 								<td>@food.Quantity</td>
 								<td>
-									<a asp-controller="Diet" asp-action="RemoveBreakfast" asp-route-foodId="@food.Id" asp-route-dietId="@Model.DietId" class="btn btn-danger float-right ml-3">Remove</a>
+									<a asp-controller="Diet" asp-action="RemoveBreakfast" asp-route-foodId="@food.Id" asp-route-dietId="@Model.DietId" asp-route-dietType="Surplus" class="btn btn-danger float-right ml-3">Remove</a>
 								</td>
 							</tr>
 						}
@@ -82,7 +82,7 @@
 								<td>@food.Carbohydrates</td>
 								<td>@food.Quantity</td>
 								<td>
-									<a asp-controller="Diet" asp-action="RemoveLunch" asp-route-foodId="@food.Id" asp-route-dietId="@Model.DietId" class="btn btn-danger float-right ml-3">Remove</a>
+									<a asp-controller="Diet" asp-action="RemoveLunch" asp-route-foodId="@food.Id" asp-route-dietId="@Model.DietId" asp-route-dietType="Surplus" class="btn btn-danger float-right ml-3">Remove</a>
 								</td>
 							</tr>
 						}
@@ -111,7 +111,7 @@
 								<td>@food.Carbohydrates</td>
 								<td>@food.Quantity</td>
 								<td>
-									<a asp-controller="Diet" asp-action="RemoveDinner" asp-route-foodId="@food.Id" asp-route-dietId="@Model.DietId" class="btn btn-danger float-right ml-3">Remove</a>
+									<a asp-controller="Diet" asp-action="RemoveDinner" asp-route-foodId="@food.Id" asp-route-dietId="@Model.DietId" asp-route-dietType="Surplus" class="btn btn-danger float-right ml-3">Remove</a>
 								</td>
 							</tr>
 						}
@@ -164,9 +164,9 @@
 									<td>@food.Fats</td>
 									<td>@food.Carbohydrates</td>
 									<td>
-										<a asp-controller="Diet" asp-action="AddBreakfast" asp-route-id="@food.Id" class="btn btn-danger float-right ml-3">Breakfast</a>
-										<a asp-controller="Diet" asp-action="AddLunch" asp-route-id="@food.Id" class="btn btn-danger float-right ml-3">Lunch</a>
-										<a asp-controller="Diet" asp-action="AddDinner" asp-route-id="@food.Id" class="btn btn-danger float-right ml-3">Dinner</a>
+										<a asp-controller="Diet" asp-action="AddBreakfast" asp-route-foodId="@food.Id" asp-route-dietId="@Model.DietId" asp-route-dietType="Surplus" class="btn btn-danger float-right ml-3">Breakfast</a>
+										<a asp-controller="Diet" asp-action="AddLunch" asp-route-foodId="@food.Id" asp-route-dietId="@Model.DietId" asp-route-dietType="Surplus" class="btn btn-danger float-right ml-3">Lunch</a>
+										<a asp-controller="Diet" asp-action="AddDinner" asp-route-foodId="@food.Id" asp-route-dietId="@Model.DietId" asp-route-dietType="Surplus" class="btn btn-danger float-right ml-3">Dinner</a>
 									</td>
 								</tr>
 							}
