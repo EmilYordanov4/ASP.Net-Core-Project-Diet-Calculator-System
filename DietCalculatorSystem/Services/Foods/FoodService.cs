@@ -21,7 +21,9 @@ namespace DietCalculatorSystem.Services.Foods
             string searchTerm = null,
             FoodSorting foodSorting = FoodSorting.Calories)
         {
-            var foodsAsQuery = data.Foods.AsQueryable();
+            var foodsAsQuery = data
+                .Foods
+                .Where(x => x.IsPublic == true);
 
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
@@ -81,6 +83,7 @@ namespace DietCalculatorSystem.Services.Foods
                 Fats = fats,
                 Description = description,
                 PictureUrl = pictureUrl,
+                IsPublic = false
             };
 
             data.Foods.Add(food);
@@ -126,6 +129,7 @@ namespace DietCalculatorSystem.Services.Foods
         {
             var allFoods = data
                 .Foods
+                //.Where(x => x.IsPublic == true)
                 .ToList();
 
             var count = allFoods.Count();

@@ -87,7 +87,12 @@ namespace DietCalculatorSystem.Areas.Identity.Pages.Account
             ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new User {FullName = Input.FullName, UserName = Input.FullName, Email = Input.Email };
+                var user = new User 
+                {
+                    FullName = Input.FullName,
+                    UserName = Input.FullName,
+                    Email = Input.Email 
+                };
 
                 var balanced = new Diet();
                 var deficit = new Diet();

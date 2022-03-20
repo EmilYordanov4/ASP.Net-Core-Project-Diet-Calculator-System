@@ -1,7 +1,6 @@
 ﻿using DietCalculatorSystem.Data;
 using DietCalculatorSystem.Data.Models;
 using DietCalculatorSystem.Data.Models.ManyToManyRelationships;
-using DietCalculatorSystem.Models.Home;
 using DietCalculatorSystem.Services.Diets.Models;
 using DietCalculatorSystem.Services.Foods.Models;
 using Microsoft.EntityFrameworkCore;

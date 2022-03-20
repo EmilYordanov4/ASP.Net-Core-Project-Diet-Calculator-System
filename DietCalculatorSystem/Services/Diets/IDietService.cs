@@ -1,6 +1,4 @@
-﻿using DietCalculatorSystem.Data.Models;
-using DietCalculatorSystem.Models.Home;
-using DietCalculatorSystem.Services.Diets.Models;
+﻿using DietCalculatorSystem.Services.Diets.Models;
 
 namespace DietCalculatorSystem.Services.Diets
 {

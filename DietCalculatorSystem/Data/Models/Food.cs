@@ -29,5 +29,7 @@ namespace DietCalculatorSystem.Data.Models
 
         [Required]
         public double? Carbohydrates { get; set; }
+
+        public bool IsPublic { get; set; }
     }
 }
