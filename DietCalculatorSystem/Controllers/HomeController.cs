@@ -1,7 +1,10 @@
-﻿using DietCalculatorSystem.Models;
+﻿using DietCalculatorSystem.Data.Models;
+using DietCalculatorSystem.Models;
 using DietCalculatorSystem.Services.Foods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using System;
 using System.Diagnostics;
 
 namespace DietCalculatorSystem.Controllers
@@ -9,10 +12,12 @@ namespace DietCalculatorSystem.Controllers
     public class HomeController : Controller
     {
         private readonly IFoodService foods;
-
-        public HomeController(IFoodService foods)
+        private readonly IMemoryCache cache;
+        public HomeController(IFoodService foods,
+            IMemoryCache cache)
         {
             this.foods = foods;
+            this.cache = cache;
         }
 
         public IActionResult Index()
@@ -28,7 +33,22 @@ namespace DietCalculatorSystem.Controllers
         [Authorize]
         public IActionResult IndexLoggedIn()
         {
-            return View(foods.GetRandomFood());
+            const string FOTDCacheKey = "FOTDCacheKey";
+
+            var FoodOfTheDay = this.cache.Get<Food>(FOTDCacheKey);
+
+            if (FoodOfTheDay == null)
+            {
+                var food = foods.GetRandomFood();
+
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromHours(24));
+
+                this.cache.Set(FOTDCacheKey, food, cacheEntryOptions);
+
+            }
+
+            return View(this.cache.Get(FOTDCacheKey));
         }       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

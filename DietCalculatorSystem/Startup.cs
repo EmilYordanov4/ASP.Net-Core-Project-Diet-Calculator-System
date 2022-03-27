@@ -1,3 +1,4 @@
+using DietCalculatorSystem.Controllers;
 using DietCalculatorSystem.Data;
 using DietCalculatorSystem.Data.Models;
 using DietCalculatorSystem.Infrastructure;
@@ -29,6 +30,8 @@ namespace DietCalculatorSystem
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddMemoryCache();
 
             services.AddDefaultIdentity<User>(options =>
             {
@@ -70,6 +73,11 @@ namespace DietCalculatorSystem
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "Areas",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                    );
+
                 endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
             });

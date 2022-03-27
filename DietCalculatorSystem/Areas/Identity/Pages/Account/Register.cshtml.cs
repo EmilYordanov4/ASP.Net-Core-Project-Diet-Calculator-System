@@ -94,9 +94,27 @@ namespace DietCalculatorSystem.Areas.Identity.Pages.Account
                     Email = Input.Email 
                 };
 
-                var balanced = new Diet();
-                var deficit = new Diet();
-                var surplus = new Diet();
+                var balanced = new Diet()
+                {
+                    TotalCalories = 0,
+                    TotalProteins = 0,
+                    TotalFats = 0,
+                    TotalCarbohydrates = 0,
+                };
+                var deficit = new Diet()
+                {
+                    TotalCalories = 0,
+                    TotalProteins = 0,
+                    TotalFats = 0,
+                    TotalCarbohydrates = 0,
+                };
+                var surplus = new Diet()
+                {
+                    TotalCalories = 0,
+                    TotalProteins = 0,
+                    TotalFats = 0,
+                    TotalCarbohydrates = 0,
+                };
 
                 var balancedDiet = new BalancedDiet
                 {

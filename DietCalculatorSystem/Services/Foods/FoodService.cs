@@ -3,6 +3,7 @@ using DietCalculatorSystem.Data.Models;
 using DietCalculatorSystem.Models.Foods;
 using DietCalculatorSystem.Services.Foods.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DietCalculatorSystem.Services.Foods
@@ -14,6 +15,15 @@ namespace DietCalculatorSystem.Services.Foods
         public FoodService(DietCalculatorDbContext data)
         {
             this.data = data;
+        }
+
+        public void AcceptFood(string foodId)
+        {
+            var food = GetFood(foodId);
+
+            food.IsPublic = true;
+
+            this.data.SaveChanges();
         }
 
         public FoodQueryServiceModel All(int foodsPerPage = 5,
@@ -98,6 +108,14 @@ namespace DietCalculatorSystem.Services.Foods
                 .Any(x => x.Name == foodName);
         }
 
+        public List<Food> GetAllRequestedFoods()
+        {
+            return this.data
+                .Foods
+                .Where(x => x.IsPublic == false)
+                .ToList();
+        }
+
         public FoodDetailsServiceModel GetDetails(string foodId)
         {
             var allFoods = data
@@ -125,14 +143,21 @@ namespace DietCalculatorSystem.Services.Foods
             };
         }
 
+        public Food GetFood(string id)
+        {
+            return data
+                .Foods
+                .FirstOrDefault(x => x.Id == id);
+        }
+
         public Food GetRandomFood()
         {
             var allFoods = data
                 .Foods
-                //.Where(x => x.IsPublic == true)
+                .Where(x => x.IsPublic == true)
                 .ToList();
 
-            var count = allFoods.Count();
+            var count = allFoods.Count;
 
             Random rnd = new Random();
 
@@ -141,7 +166,7 @@ namespace DietCalculatorSystem.Services.Foods
 
         public void RemoveFood(string foodId)
         {
-            var food = data.Foods.FirstOrDefault(x => x.Id == foodId);
+            var food = GetFood(foodId);
 
             data.Foods.Remove(food);
             data.SaveChanges();

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<Food>
+
+<h1 style="text-align:center; margin-bottom:2%">All Foods</h1>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Picture</th>
+            <th scope="col">Name</th>
+            <th scope="col">Calories</th>
+            <th scope="col">Proteins</th>
+            <th scope="col">Fats</th>
+            <th scope="col">Carbohydrates</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var food in Model)
+        {
+        <tr>
+            <td scope="col"><img src="@food.PictureUrl" class="card-img-top"></td>
+            <td scope="col">@food.Name</td>
+            <td scope="col">@food.Calories</td>
+            <td scope="col">@food.Proteins</td>
+            <td scope="col">@food.Fats</td>
+            <td scope="col">@food.Carbohydrates</td>
+            <td scope="col">
+                <a style="margin-bottom:50%" asp-area="Admin" asp-controller="Food" asp-action="Accept" asp-route-foodId="@food.Id" class="btn btn-info float-right ml-3">Accept</a>
+                <a asp-area="Admin" asp-controller="Food" asp-action="Deny" asp-route-foodId="@food.Id" class="btn btn-danger float-right ml-3">Deny</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

@@ -2,6 +2,7 @@
 using DietCalculatorSystem.Data.Models;
 using DietCalculatorSystem.Data.Models.ManyToManyRelationships;
 using DietCalculatorSystem.Services.Diets.Models;
+using DietCalculatorSystem.Services.Foods;
 using DietCalculatorSystem.Services.Foods.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,22 +13,23 @@ namespace DietCalculatorSystem.Services.Diets
     public class DietService : IDietService
     {
         private readonly DietCalculatorDbContext data;
+        private readonly IFoodService foods;
 
-        public DietService(DietCalculatorDbContext data)
+        public DietService(DietCalculatorDbContext data,
+            IFoodService foods)
         {
             this.data = data;
+            this.foods = foods;
         }
 
         public void AddBreakfastFood(string foodId,
             string dietId)
         {
             var diet = data
-                            .Diets
-                            .FirstOrDefault(a => a.Id == dietId);
+                .Diets
+                .FirstOrDefault(a => a.Id == dietId);
 
-            var food = data
-                .Foods
-                .FirstOrDefault(a => a.Id == foodId);
+            var food = foods.GetFood(foodId);
 
             var currBreakfastFood = data
                 .BreakfastFoods
