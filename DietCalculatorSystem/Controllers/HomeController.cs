@@ -7,6 +7,8 @@ using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Diagnostics;
 
+using static DietCalculatorSystem.WebConstants.Cache;
+
 namespace DietCalculatorSystem.Controllers
 {
     public class HomeController : Controller
@@ -33,8 +35,6 @@ namespace DietCalculatorSystem.Controllers
         [Authorize]
         public IActionResult IndexLoggedIn()
         {
-            const string FOTDCacheKey = "FOTDCacheKey";
-
             var FoodOfTheDay = this.cache.Get<Food>(FOTDCacheKey);
 
             if (FoodOfTheDay == null)

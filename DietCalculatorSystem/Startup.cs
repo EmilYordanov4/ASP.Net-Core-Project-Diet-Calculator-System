@@ -1,4 +1,3 @@
-using DietCalculatorSystem.Controllers;
 using DietCalculatorSystem.Data;
 using DietCalculatorSystem.Data.Models;
 using DietCalculatorSystem.Infrastructure;
@@ -25,9 +24,9 @@ namespace DietCalculatorSystem
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DietCalculatorDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            services
+                .AddDbContext<DietCalculatorDbContext>(options => options
+                    .UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
