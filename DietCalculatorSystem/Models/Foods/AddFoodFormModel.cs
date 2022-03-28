@@ -16,6 +16,7 @@ namespace DietCalculatorSystem.Models.Foods
         public string Description { get; set; }
 
         [Required]
+        [Url]
         [Display(Name = "Picture Url")]
         public string PictureUrl { get; set; }
 

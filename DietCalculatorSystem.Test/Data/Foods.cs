@@ -11,5 +11,25 @@ namespace DietCalculatorSystem.Test.Data
             {
                 IsPublic = true
             });
+        
+        public static Food FirstFood
+            => new Food
+            {
+                Id = "1",
+                IsPublic = true
+            };
+        public static Food SecondFood
+            => new Food
+            {
+                Id = "2",
+                IsPublic = true
+            };
+        public static Food ThirdFood
+            => new Food
+            {
+                Id = "3",
+                IsPublic = true
+            };
+
     }
 }

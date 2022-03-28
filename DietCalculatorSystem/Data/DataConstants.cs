@@ -12,7 +12,7 @@
 
         public class Food
         {
-            public const int MinFoodNameLength = 1;
+            public const int MinFoodNameLength = 2;
             public const int MaxFoodNameLength = 40;
             public const int MinDescriptionLength = 10;
             public const int MaxDescriptionLength = 200;

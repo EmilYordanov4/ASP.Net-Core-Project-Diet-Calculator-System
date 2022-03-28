@@ -25,10 +25,12 @@ namespace DietCalculatorSystem.Test.Controllers
             => MyController<HomeController>
             .Instance(instance => instance
                 .WithUser())
-            .Calling(c => c.Index())
+            .Calling(c => c
+                .Index())
             .ShouldReturn()
             .Redirect(r => r
-                .To<HomeController>(c => c.IndexLoggedIn()));
+                .To<HomeController>(c => c
+                    .IndexLoggedIn()));
 
 
 
