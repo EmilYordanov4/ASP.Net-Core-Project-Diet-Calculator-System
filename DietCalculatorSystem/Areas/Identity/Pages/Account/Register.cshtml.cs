@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using DietCalculatorSystem.Data.Models.OneToOneRelationships;
 using DietCalculatorSystem.Data;
+using DietCalculatorSystem.Services.Users;
 
 namespace DietCalculatorSystem.Areas.Identity.Pages.Account
 {
@@ -29,19 +30,22 @@ namespace DietCalculatorSystem.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailSender emailSender;
         private readonly DietCalculatorDbContext data;
+        private readonly IUserService users;
 
         public RegisterModel(
             DietCalculatorDbContext data,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IUserService users)
         {
             this.data = data;
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
             this.emailSender = emailSender;
+            this.users = users;
         }
 
         [BindProperty]
@@ -87,69 +91,7 @@ namespace DietCalculatorSystem.Areas.Identity.Pages.Account
             ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new User 
-                {
-                    FullName = Input.FullName,
-                    UserName = Input.FullName,
-                    Email = Input.Email 
-                };
-
-                var balanced = new Diet()
-                {
-                    TotalCalories = 0,
-                    TotalProteins = 0,
-                    TotalFats = 0,
-                    TotalCarbohydrates = 0,
-                };
-                var deficit = new Diet()
-                {
-                    TotalCalories = 0,
-                    TotalProteins = 0,
-                    TotalFats = 0,
-                    TotalCarbohydrates = 0,
-                };
-                var surplus = new Diet()
-                {
-                    TotalCalories = 0,
-                    TotalProteins = 0,
-                    TotalFats = 0,
-                    TotalCarbohydrates = 0,
-                };
-
-                var balancedDiet = new BalancedDiet
-                {
-                    User = user,
-                    UserId = user.Id,
-                    Diet = balanced,
-                    DietId = balanced.Id
-                };
-
-                var deficitDiet = new DeficitDiet
-                {
-                    User = user,
-                    UserId = user.Id,
-                    Diet = deficit,
-                    DietId = deficit.Id
-                };
-
-                var surplusDiet = new SurplusDiet
-                {
-                    User = user,
-                    UserId = user.Id,
-                    Diet = surplus,
-                    DietId = surplus.Id
-                };
-
-                user.BalancedDiet = balancedDiet;
-                user.BalancedDietId = balanced.Id;
-                user.DeficitDiet = deficitDiet;
-                user.DeficitDietId = deficit.Id;
-                user.SurplusDiet = surplusDiet;
-                user.SurplusDietId = surplus.Id;
-
-                this.data.Diets.AddRange(balanced, deficit, surplus);
-
-                this.data.SaveChanges();
+                var user = this.users.CreateUser(Input.FullName, Input.Email);
 
                 var result = await userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

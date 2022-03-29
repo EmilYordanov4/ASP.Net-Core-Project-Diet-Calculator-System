@@ -15,7 +15,7 @@ namespace DietCalculatorSystem.Models.Home
 
         [Required(ErrorMessage = "Height is required")]
         [Range(MinHeight,MaxHeight)]
-        public int? Height { get; set; }
+        public double? Height { get; set; }
 
         [Required(ErrorMessage = "Weight is required")]
         [Range(MinWeight,MaxWeight)]

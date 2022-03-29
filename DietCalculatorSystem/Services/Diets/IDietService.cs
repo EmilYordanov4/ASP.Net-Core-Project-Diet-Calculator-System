@@ -10,7 +10,7 @@ namespace DietCalculatorSystem.Services.Diets
         void CalculateDiet(string name,
             int? age,
             string gender,
-            int? height,
+            double? height,
             double? weight,
             double? activity);
 

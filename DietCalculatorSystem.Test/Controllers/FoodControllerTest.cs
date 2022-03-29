@@ -1,12 +1,6 @@
 ﻿using DietCalculatorSystem.Controllers;
 using DietCalculatorSystem.Models.Foods;
-using DietCalculatorSystem.Services.Foods.Models;
 using MyTested.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 using static DietCalculatorSystem.Test.Data.Foods;
@@ -92,6 +86,11 @@ namespace DietCalculatorSystem.Test.Controllers
                             Carbohydrates = carbs,
                             PictureUrl = pictureUrl
                         }))
+            .ShouldHave()
+            .ActionAttributes(a => a
+                .RestrictingForAuthorizedRequests()
+                .RestrictingForHttpMethod(HttpMethod.Post))
+            .AndAlso()
             .ShouldHave()
             .InvalidModelState(withNumberOfErrors: 1)
             .AndAlso()

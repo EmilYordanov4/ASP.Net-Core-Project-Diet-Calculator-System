@@ -31,9 +31,9 @@
         {
             public const int MinAge = 15;
             public const int MaxAge = 90;
-            public const double MinWeight = 0;
+            public const double MinWeight = 20;
             public const double MaxWeight = 500;
-            public const int MinHeight = 0;
+            public const int MinHeight = 40;
             public const int MaxHeight = 300;
         }
     }
