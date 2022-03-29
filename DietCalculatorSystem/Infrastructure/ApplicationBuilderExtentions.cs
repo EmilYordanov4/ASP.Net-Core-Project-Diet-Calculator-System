@@ -9,7 +9,7 @@ using System;
 using System.Threading.Tasks;
 
 
-using static DietCalculatorSystem.Areas.Admin.AdminConstants;
+using static DietCalculatorSystem.WebConstants.AdminConstants;
 
 namespace DietCalculatorSystem.Infrastructure
 {

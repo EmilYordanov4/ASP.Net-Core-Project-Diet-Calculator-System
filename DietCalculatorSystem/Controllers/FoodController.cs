@@ -1,7 +1,10 @@
-﻿using DietCalculatorSystem.Models.Foods;
+﻿using DietCalculatorSystem.Areas.Admin;
+using DietCalculatorSystem.Models.Foods;
 using DietCalculatorSystem.Services.Foods;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+using static DietCalculatorSystem.WebConstants.AdminConstants;
 
 namespace DietCalculatorSystem.Controllers
 {
@@ -66,7 +69,7 @@ namespace DietCalculatorSystem.Controllers
             return this.View(foods.GetDetails(foodId));
         }
 
-        [Authorize]
+        [Authorize(Roles = AdministratorRoleName)]
         public IActionResult Delete(string foodId)
         {
             foods.RemoveFood(foodId);

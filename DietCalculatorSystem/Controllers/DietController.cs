@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace DietCalculatorSystem.Controllers
 {
-    [Authorize]
+    
     public class DietController : Controller
     {
         private const int foodsPerPage = 5;
@@ -24,6 +24,7 @@ namespace DietCalculatorSystem.Controllers
             this.diets = diets;
         }
 
+        [Authorize]
         public IActionResult Surplus([FromQuery] DietFormModel query)
         {
             query.DietId = diets.GetDietId(this.User.Identity.Name, nameof(Surplus));
@@ -48,6 +49,7 @@ namespace DietCalculatorSystem.Controllers
             return View(query);
         }
 
+        [Authorize]
         public IActionResult Deficit([FromQuery] DietFormModel query)
         {
             query.DietId = diets.GetDietId(this.User.Identity.Name, nameof(Deficit));
@@ -72,6 +74,7 @@ namespace DietCalculatorSystem.Controllers
             return View(query);
         }
 
+        [Authorize]
         public IActionResult Balanced([FromQuery] DietFormModel query)
         {
             query.DietId = diets.GetDietId(this.User.Identity.Name, nameof(Balanced));
@@ -96,7 +99,55 @@ namespace DietCalculatorSystem.Controllers
             return View(query);
         }
 
-        private static void CalculateNutritions(DietFormModel query, DietServiceModel diet) 
+        [Authorize]
+        public IActionResult AddBreakfast(string foodId, string dietId, string dietType)
+        {
+            diets.AddBreakfastFood(foodId, dietId);
+
+            return Redirect($"/Diet/{dietType}");
+        }
+
+        [Authorize]
+        public IActionResult AddLunch(string foodId, string dietId, string dietType)
+        {
+            diets.AddLunchFood(foodId, dietId);
+
+            return Redirect($"/Diet/{dietType}");
+        }
+
+        [Authorize]
+        public IActionResult AddDinner(string foodId, string dietId, string dietType)
+        {
+            diets.AddDinnerFood(foodId, dietId);
+
+            return Redirect($"/Diet/{dietType}");
+        }
+
+        [Authorize]
+        public IActionResult RemoveBreakfast(string foodId, string dietId, string dietType) 
+        {
+            diets.RemoveBreakFastFood(foodId, dietId);
+
+            return Redirect($"/Diet/{dietType}");
+        }
+
+        [Authorize]
+        public IActionResult RemoveLunch(string foodId, string dietId, string dietType) 
+        {
+            diets.RemoveLunchFood(foodId, dietId);
+
+            return Redirect($"/Diet/{dietType}");
+        }
+
+        [Authorize]
+        public IActionResult RemoveDinner(string foodId, string dietId, string dietType) 
+        {
+            diets.RemoveDinnerFood(foodId,dietId);
+
+            return Redirect($"/Diet/{dietType}");
+        }
+
+        private static void CalculateNutritions(DietFormModel query, DietServiceModel diet)
         {
             var consumedCalories =
                 query.BreakfastFoods.Sum(x => x.Calories * x.Quantity) +
@@ -119,48 +170,6 @@ namespace DietCalculatorSystem.Controllers
             query.TotalProteins = Math.Round((double)(diet.TotalProteins - consumedProteins), 2);
             query.TotalFats = Math.Round((double)(diet.TotalFats - consumedFats), 2);
             query.TotalCarbohydrates = Math.Round((double)(diet.TotalCarbohydrates - consumedCarbohydrates), 2);
-        }
-
-        public IActionResult AddBreakfast(string foodId, string dietId, string dietType)
-        {
-            diets.AddBreakfastFood(foodId, dietId);
-
-            return Redirect($"/Diet/{dietType}");
-        }
-
-        public IActionResult AddLunch(string foodId, string dietId, string dietType)
-        {
-            diets.AddLunchFood(foodId, dietId);
-
-            return Redirect($"/Diet/{dietType}");
-        }
-
-        public IActionResult AddDinner(string foodId, string dietId, string dietType)
-        {
-            diets.AddDinnerFood(foodId, dietId);
-
-            return Redirect($"/Diet/{dietType}");
-        }
-
-        public IActionResult RemoveBreakfast(string foodId, string dietId, string dietType) 
-        {
-            diets.RemoveBreakFastFood(foodId, dietId);
-
-            return Redirect($"/Diet/{dietType}");
-        }
-        
-        public IActionResult RemoveLunch(string foodId, string dietId, string dietType) 
-        {
-            diets.RemoveLunchFood(foodId, dietId);
-
-            return Redirect($"/Diet/{dietType}");
-        }
-        
-        public IActionResult RemoveDinner(string foodId, string dietId, string dietType) 
-        {
-            diets.RemoveDinnerFood(foodId,dietId);
-
-            return Redirect($"/Diet/{dietType}");
         }
     }
 }

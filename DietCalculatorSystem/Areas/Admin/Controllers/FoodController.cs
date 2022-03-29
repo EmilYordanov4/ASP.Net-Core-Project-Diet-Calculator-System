@@ -1,4 +1,5 @@
 ﻿using DietCalculatorSystem.Services.Foods;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DietCalculatorSystem.Areas.Admin.Controllers

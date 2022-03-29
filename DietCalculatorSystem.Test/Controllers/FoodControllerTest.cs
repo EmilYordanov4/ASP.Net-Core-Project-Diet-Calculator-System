@@ -4,6 +4,7 @@ using MyTested.AspNetCore.Mvc;
 using Xunit;
 
 using static DietCalculatorSystem.Test.Data.Foods;
+using static DietCalculatorSystem.WebConstants.AdminConstants;
 
 namespace DietCalculatorSystem.Test.Controllers
 {
@@ -106,17 +107,20 @@ namespace DietCalculatorSystem.Test.Controllers
                 .Details("1"))
             .ShouldReturn()
             .View();
-        
+
         [Fact]
         public void DeleteShouldRemoveSuccessfullyAndReturnCorrectView()
             => MyController<FoodController>
             .Instance(instance => instance
-                .WithData(FirstFood))
+                .WithData(FirstFood)
+                .WithUser(u => u
+                    .InRole(AdministratorRoleName)))
             .Calling(c => c
                 .Delete("1"))
             .ShouldHave()
             .ActionAttributes(attributes => attributes
-                    .RestrictingForAuthorizedRequests())
+                .RestrictingForAuthorizedRequests(AdministratorRoleName))
+            .ValidModelState()
             .AndAlso()
             .ShouldReturn()
             .Redirect(r => r

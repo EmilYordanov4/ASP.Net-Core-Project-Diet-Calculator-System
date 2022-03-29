@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using static DietCalculatorSystem.WebConstants.AdminConstants;
+
 namespace DietCalculatorSystem.Areas.Admin.Controllers
 {
-    [Area(AdminConstants.AreaName)]
-    [Authorize(Roles = AdminConstants.AdministratorRoleName)]
+    [Area(AreaName)]
+    [Authorize(Roles = AdministratorRoleName)]
     public abstract class AdminController : Controller
     {
     }

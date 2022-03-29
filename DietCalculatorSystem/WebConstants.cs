@@ -1,10 +1,16 @@
 ﻿namespace DietCalculatorSystem
 {
-    public class WebConstants
+    public static class WebConstants
     {
-        public class Cache
+        public static class Cache
         {
             public const string FOTDCacheKey = nameof(FOTDCacheKey);
+        }
+
+        public static class AdminConstants
+        {
+            public const string AreaName = "Admin";
+            public const string AdministratorRoleName = "Administrator";
         }
     }
 }
