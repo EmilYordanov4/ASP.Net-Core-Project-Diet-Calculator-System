@@ -1,5 +1,9 @@
 ﻿@model AllFoodsQueryModel
 
+@{
+    ViewData["Title"] = "Foods";
+}
+
 @if (User.Identity.IsAuthenticated)
 {
 	<div align="right">

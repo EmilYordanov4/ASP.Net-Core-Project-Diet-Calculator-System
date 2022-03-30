@@ -1,9 +1,13 @@
 ﻿@model CalculateCaloriesFormModel
 
+@{
+    ViewData["Title"] = "Calculator";
+}
+
 <form method="post">
 	<div class="form-group">
 		<label asp-for="Age"></label>
-		<input asp-for="Age" class="form-control" placeholder="Enter food name...">
+		<input asp-for="Age" class="form-control" placeholder="Enter your age...">
 		<span asp-validation-for="Age" class="small text-danger"></span>
 	</div>
 	<div class="form-group">
@@ -22,12 +26,12 @@
 	</div>
 	<div class="form-group">
 		<label asp-for="Height"></label>
-		<input asp-for="Height" class="form-control" placeholder="Enter picture url...">
+		<input asp-for="Height" class="form-control" placeholder="Enter your height in centimeters...">
 		<span asp-validation-for="Height" class="small text-danger"></span>
 	</div>
 	<div class="form-group">
 		<label asp-for="Weight"></label>
-		<input asp-for="Weight" class="form-control" placeholder="Enter food calories...">
+		<input asp-for="Weight" class="form-control" placeholder="Enter your weight in kilograms...">
 		<span asp-validation-for="Weight" class="small text-danger"></span>
 	</div>
 	<div class="form-group">

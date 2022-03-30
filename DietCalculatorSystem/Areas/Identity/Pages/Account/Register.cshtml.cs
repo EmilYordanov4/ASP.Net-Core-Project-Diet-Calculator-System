@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using DietCalculatorSystem.Data.Models.OneToOneRelationships;
 using DietCalculatorSystem.Data;
 using DietCalculatorSystem.Services.Users;
 
@@ -29,7 +28,6 @@ namespace DietCalculatorSystem.Areas.Identity.Pages.Account
         private readonly UserManager<User> userManager;
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailSender emailSender;
-        private readonly DietCalculatorDbContext data;
         private readonly IUserService users;
 
         public RegisterModel(
@@ -40,7 +38,6 @@ namespace DietCalculatorSystem.Areas.Identity.Pages.Account
             IEmailSender emailSender,
             IUserService users)
         {
-            this.data = data;
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;

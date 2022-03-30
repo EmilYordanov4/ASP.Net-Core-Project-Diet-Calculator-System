@@ -1,11 +1,7 @@
 ﻿using DietCalculatorSystem.Areas.Admin.Controllers;
 using DietCalculatorSystem.Data.Models;
 using MyTested.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 using static DietCalculatorSystem.Test.Data.Foods;

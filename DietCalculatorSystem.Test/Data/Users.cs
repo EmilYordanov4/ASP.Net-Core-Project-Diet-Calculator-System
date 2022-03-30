@@ -1,6 +1,5 @@
 ﻿using DietCalculatorSystem.Data.Models;
 using DietCalculatorSystem.Data.Models.OneToOneRelationships;
-using DietCalculatorSystem.Services.Users;
 
 namespace DietCalculatorSystem.Test.Data
 {

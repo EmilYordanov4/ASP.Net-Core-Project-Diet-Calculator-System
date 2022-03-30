@@ -1,6 +1,7 @@
 ﻿using DietCalculatorSystem.Data;
 using DietCalculatorSystem.Data.Models;
 using DietCalculatorSystem.Data.Models.OneToOneRelationships;
+using System.Linq;
 
 namespace DietCalculatorSystem.Services.Users
 {
@@ -79,6 +80,15 @@ namespace DietCalculatorSystem.Services.Users
             this.data.SaveChanges();
 
             return user;
+        }
+
+        public void DeleteDiets(string balancedDietId, string deficitDietId, string surplusDietId)
+        {
+            this.data.BalancedDiets.Remove(this.data.BalancedDiets.FirstOrDefault(x => x.DietId == balancedDietId));
+            this.data.DeficitDiets.Remove(this.data.DeficitDiets.FirstOrDefault(x => x.DietId == deficitDietId));
+            this.data.SurplusDiets.Remove(this.data.SurplusDiets.FirstOrDefault(x => x.DietId == surplusDietId));
+
+            this.data.SaveChanges();
         }
     }
 }
