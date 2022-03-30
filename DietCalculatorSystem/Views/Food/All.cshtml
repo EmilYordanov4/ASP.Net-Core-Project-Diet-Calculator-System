@@ -1,32 +1,18 @@
 ﻿@model AllFoodsQueryModel
 
 @{
-    ViewData["Title"] = "Foods";
+	ViewData["Title"] = "Foods";
 }
 
-<style>
-body {
-  background-image: url('https://cdn1.thesculptedvegan.com/wp-content/uploads/2018/06/06131233/nutrition-section-4-background.jpg');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-}
-</style>
-
-@if (User.Identity.IsAuthenticated)
-{
-	<div align="right">
-		<a class="btn btn-primary" asp-area="" asp-controller="Food" asp-action="Add">Add Food</a>
-	</div>
-}
+<h1 style="text-align:center; margin-bottom:2%">All Foods</h1>
 
 <form method="get">
-	<div class="row" mb-5>
-		<div class="form-group col-md-3">
+	<div class="row">
+		<div class="form-group col-md-4 filterText">
 			<label asp-for="SearchTerm"></label>
 			<input asp-for="SearchTerm" class="form-control" placeholder="Enter food name...">
 		</div>
-		<div class="form-group col-md-4">
+		<div class="form-group col-md-4 filterText">
 			<div class="form-group">
 				<label asp-for="Sorting"></label>
 				<select asp-for="Sorting" class="form-control">
@@ -37,29 +23,33 @@ body {
 				</select>
 			</div>
 		</div>
-		<div class="form-group col-md-3">
-			<input type="submit" class="btn btn-primary" value="Search">
+		<div class="form-group col-md-1 centerButton">
+			<input type="submit" class="navbar-brand btn-settings btn btn-primary" value="Search">
 		</div>
+		@if (User.Identity.IsAuthenticated)
+		{
+			<div class="form-group col-md-3 centerButton ">
+				<a class="btn-settings btn" style="white-space: nowrap; " asp-area="" asp-controller="Food" asp-action="Add">Add Food</a>
+			</div>
+		}
 	</div>
 </form>
 
 <div class="row">
 	@foreach (var food in Model.Foods)
 	{
-		<div class="form-group col-md-3">
-			<img src="@food.PictureUrl" class="card-img-top">
-			<div class="card-body">
-				<h5 class="card-title" align="center">@food.Name</h5>
-				<p class="card-text" align="center">Calories: @food.Calories</p>
-				<p class="card-text">Proteins: @food.Proteins grams</p>
-				<p class="card-text">Fats: @food.Fats grams</p>
-				<p class="card-text">Carbohydrates: @food.Carbohydrates grams</p>
-				<a asp-controller="Food" asp-action="Details" asp-route-foodId="@food.Id" class="btn btn-primary float-left">Details</a>
-				@if(User.IsInRole("Administrator"))
-				{	
-				<a asp-controller="Food" asp-action="Delete" asp-route-foodId="@food.Id" class="btn btn-danger float-right">Delete</a>
-				}
-			</div>
+		<div class="form-group allFoods col-lg-3">
+			<img src="@food.PictureUrl" class="allFoodsImage">
+			<h5 align="center">@food.Name</h5>
+			<p align="center">Calories: @food.Calories</p>
+			<p>Proteins: @food.Proteins grams</p>
+			<p>Fats: @food.Fats grams</p>
+			<p>Carbs: @food.Carbohydrates grams</p>
+			<a class="navbar-brand btn-settings float-left" style="color: black" asp-controller="Food" asp-action="Details" asp-route-foodId="@food.Id">Details</a>
+			@if (User.IsInRole("Administrator"))
+			{
+				<a class="navbar-brand btn btn-danger float-right" style="color: black" asp-controller="Food" asp-action="Delete" asp-route-foodId="@food.Id">Delete</a>
+			}
 		</div>
 	}
 </div>
@@ -76,7 +66,7 @@ body {
 
 <div class="row mb-5">
 	<div class="col-md-6">
-		<a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+		<a class="navbar-brand btn-settings btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
 		   asp-controller="Food"
 		   asp-action="All"
 		   asp-route-currentPage="@previousPage"
@@ -90,7 +80,7 @@ body {
 	}
 
 	<div class="col-md-6">
-		<a class="btn btn-primary float-sm-right @(shouldButtonBeDisabled ? "disabled" : string.Empty)" style="margin-top: 10px"
+		<a class="navbar-brand btn-settings btn btn-primary float-sm-right @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
 		   asp-controller="Food"
 		   asp-action="All"
 		   asp-route-currentPage="@(Model.CurrentPage + 1)"
