@@ -1,0 +1,23 @@
+﻿.sidebar {
+    position: sticky;
+    top: 75px;
+}
+
+.bg-secondary {
+    background-image: url("../images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    color: green;
+}
+
+.font-settings {
+    font-size: 20px;
+}
+
+.btn-settings {
+    background-color: lightgreen;
+    padding: 5px 8px 5px 8px;
+    border-radius: 6px;
+    border: 2px solid green;
+}

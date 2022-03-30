@@ -12,16 +12,21 @@ for details on configuring this project to bundle and minify static web assets. 
     }
 }
 
-
+body {
+    background-image: url("../images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: black;
+    color: black;
+    font-family: 'Kreon', serif;
+}
 
 thead, tbody tr {
     display: table;
     width: 100%;
     table-layout: fixed; /* even columns width , fix width of table too*/
 }
-
-
-
 
 a.navbar-brand {
     white-space: normal;
@@ -101,11 +106,6 @@ header {
     z-index: 1;
 }
 
-.sidebar {
-    position: sticky;
-    top: 75px
-}
-
 #expandingButton {
     -webkit-transition: width 1s ease;
     -moz-transition: width 1s ease;
@@ -115,10 +115,18 @@ header {
     overflow: hidden;
     white-space: nowrap;
     vertical-align: middle;
-/*    line-height: 30px;
-*/    width: 0px;
+    line-height: 30px;
+    width: 0px;
 }
 
     #expandingButton.in {
-        width: 220px;
+        width: 300px;
     }
+
+    #expandingButton a {
+        background-color: lightgreen;
+        padding: 5px 8px 5px 8px;
+        border-radius: 6px;
+        border: 2px solid green;
+        margin-right:5px;
+    } 
