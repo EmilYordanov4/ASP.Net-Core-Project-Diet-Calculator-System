@@ -130,4 +130,14 @@ header {
         border: 2px solid lightgreen;
         margin-right: 5px;
         font-weight: 500;
-    } 
+    }
+
+    #expandingButton a:hover {
+    background-color: rgb(144,238,144);
+    }
+
+.text-box {
+    border: 2px solid lightgreen;
+    border-radius: 20px;
+    background-color: rgba(241,243,242,0.7)
+}
