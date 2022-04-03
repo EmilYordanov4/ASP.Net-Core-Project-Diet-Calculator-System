@@ -26,3 +26,7 @@
 .btn-settings:hover {
     background-color: rgb(144,238,144);
 }
+
+.btn-extra {
+    margin-top:5px;
+}

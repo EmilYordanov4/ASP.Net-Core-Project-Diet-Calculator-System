@@ -12,7 +12,7 @@ namespace DietCalculatorSystem.Controllers
     
     public class DietController : Controller
     {
-        private const int foodsPerPage = 5;
+        private const int foodsPerPage = 4;
 
         private readonly IFoodService foods;
         private readonly IDietService diets;
