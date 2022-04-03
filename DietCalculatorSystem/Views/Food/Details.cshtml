@@ -4,36 +4,36 @@
 	ViewData["Title"] = $"{Model.MainFood.Name} - Details";
 }
 
-<body>
-	<div class="row">
-		<div class="col-lg-7 no-gutters">
-			<div class="card">
-				<div class="card-body">
-					<h3 class="card-title">@Model.MainFood.Name</h3>
-					<h5 class="card-text">@Model.MainFood.Description</h5>
-					<h7 class="card-text">Calories: @Model.MainFood.Calories</h7>
-					<h7 class="card-text">Proteins: @Model.MainFood.Proteins</h7>
-					<h7 class="card-text">Fats: @Model.MainFood.Fats</h7>
-					<h7 class="card-text">Carbs: @Model.MainFood.Carbohydrates</h7>
-					<img class="card-img-bottom" style="margin-top:20%" src="@Model.MainFood.PictureUrl" alt="Card image cap">
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-5 no-gutters">
-			<div class="card">
-				<div class="card-body">
-					<h3 class="card-title">@Model.FirstSuggestedFood.Name</h3>
-					<h5 class="card-text">Calories: @Model.FirstSuggestedFood.Calories</h5>
-					<img class="card-img-top" style="width:80%" src="@Model.FirstSuggestedFood.PictureUrl" alt="Card image cap">
-					<a asp-controller="Food" asp-action="Details" asp-route-foodId="@Model.FirstSuggestedFood.Id" class="btn btn-primary float-left">See</a>
-				</div>
-				<div class="card-body">
-					<h3 class="card-title">@Model.SecondSuggestedFood.Name</h3>
-					<h5 class="card-text">Calories: @Model.SecondSuggestedFood.Calories</h5>
-					<img class="card-img-top" style="width:80%" src="@Model.SecondSuggestedFood.PictureUrl" alt="Card image cap">
-					<a asp-controller="Food" asp-action="Details" asp-route-foodId="@Model.SecondSuggestedFood.Id" class="btn btn-primary float-left">See</a>
-				</div>
+<div class="row">
+	<div class="col-lg-7 no-gutters row">
+		<div class="text-box" style="padding: 10px 10px 10px 10px; width: 100%; height: 98%">
+			<div style="padding: 10px 10px 10px 10px">
+				<h2 style="text-align:center">@Model.MainFood.Name</h2>
+				<h3>Calories: @Model.MainFood.Calories</h3>
+				<h5 style="padding-top: 1em">Proteins: @Model.MainFood.Proteins</h5>
+				<h5 style="padding-top: 1em">Fats: @Model.MainFood.Fats</h5>
+				<h5 style="padding-top: 1em">Carbs: @Model.MainFood.Carbohydrates</h5>
+				<img class="mainDetailedFoodImage"  style="padding-top: 1em" src="@Model.MainFood.PictureUrl">
+				<h4 style="margin-top:5%">@Model.MainFood.Description</h4>
 			</div>
 		</div>
 	</div>
-</body>
+	<div class="col-lg-5 no-gutters row">
+		<div class="form-group text-box" style="padding: 10px 10px 10px 10px; width: 100%">
+			<div style="padding: 10px 10px 10px 10px">
+				<h3>@Model.FirstSuggestedFood.Name</h3>
+				<h5>Calories: @Model.FirstSuggestedFood.Calories</h5>
+				<img class="detailedFoodImages" src="@Model.FirstSuggestedFood.PictureUrl">
+				<a asp-controller="Food" asp-action="Details" asp-route-foodId="@Model.FirstSuggestedFood.Id" class="navbar-brand btn btn-settings font-settings float-left" style="margin-top: 10px">Check</a>
+			</div>
+		</div>
+		<div class="form-group text-box" style="padding: 10px 10px 10px 10px; width: 100%">
+			<div style="padding: 10px 10px 10px 10px">
+				<h3>@Model.SecondSuggestedFood.Name</h3>
+				<h5>Calories: @Model.SecondSuggestedFood.Calories</h5>
+				<img class="detailedFoodImages" src="@Model.SecondSuggestedFood.PictureUrl">
+				<a asp-controller="Food" asp-action="Details" asp-route-foodId="@Model.SecondSuggestedFood.Id" class="navbar-brand btn btn-settings font-settings float-left" style="margin-top: 10px">Check</a>
+			</div>
+		</div>
+	</div>
+</div>

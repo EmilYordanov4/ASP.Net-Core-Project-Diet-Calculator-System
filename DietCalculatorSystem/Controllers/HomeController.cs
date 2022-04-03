@@ -45,7 +45,6 @@ namespace DietCalculatorSystem.Controllers
                     .SetAbsoluteExpiration(TimeSpan.FromHours(24));
 
                 this.cache.Set(FOTDCacheKey, food, cacheEntryOptions);
-
             }
 
             return View(this.cache.Get(FOTDCacheKey));

@@ -120,6 +120,7 @@ namespace DietCalculatorSystem.Services.Foods
         {
             var allFoods = data
                 .Foods
+                .Where(x => x.IsPublic == true)
                 .ToList();
 
             var mainFood = allFoods
