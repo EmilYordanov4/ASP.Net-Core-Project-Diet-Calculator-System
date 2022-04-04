@@ -1,4 +1,4 @@
-﻿namespace DietCalculatorSystem.Data.Models
+﻿namespace DietCalculatorSystem.Data
 {
     public class DataConstants
     {

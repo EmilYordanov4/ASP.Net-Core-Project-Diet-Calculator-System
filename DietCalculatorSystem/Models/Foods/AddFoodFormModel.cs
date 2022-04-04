@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-using static DietCalculatorSystem.Data.Models.DataConstants.Food;
+using static DietCalculatorSystem.Data.DataConstants.Food;
 
 namespace DietCalculatorSystem.Models.Foods
 {

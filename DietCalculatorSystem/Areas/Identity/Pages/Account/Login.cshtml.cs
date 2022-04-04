@@ -10,9 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
+using static DietCalculatorSystem.Data.DataConstants.User;
+
 namespace DietCalculatorSystem.Areas.Identity.Pages.Account
 {
-    using static DataConstants.User;
 
     [AllowAnonymous]
     public class LoginModel : PageModel
@@ -22,7 +23,7 @@ namespace DietCalculatorSystem.Areas.Identity.Pages.Account
         private readonly ILogger<LoginModel> logger;
 
         public LoginModel(
-            SignInManager<User> signInManager, 
+            SignInManager<User> signInManager,
             ILogger<LoginModel> logger,
             UserManager<User> userManager)
         {
@@ -78,7 +79,7 @@ namespace DietCalculatorSystem.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        
+
             if (ModelState.IsValid)
             {
                 var result = await signInManager.PasswordSignInAsync(Input.FullName, Input.Password, Input.RememberMe, lockoutOnFailure: true);
